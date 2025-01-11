@@ -149,7 +149,7 @@ class Wishlist_Test extends TestCase
 	{
 		global $wpdb;
 
-		$error = Mockery::mock('WP_Error');
+		$error = Mockery::mock('alias:WP_Error');
 		$error->shouldReceive('get_error_message')->andReturn('Failed to create wishlist');
 
 		Functions\expect('is_wp_error')->andReturn(true);

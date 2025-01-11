@@ -22,7 +22,8 @@
     "wpify/scoper": "^3.2",
     "dealerdirect/phpcodesniffer-composer-installer": "^0.7",
     "phpcompatibility/phpcompatibility-wp": "*",
-    "yoast/wp-test-utils": "*"
+    "yoast/wp-test-utils": "*",
+    "brain/monkey": "2.*"
   },
   "autoload": {
     "psr-4": {

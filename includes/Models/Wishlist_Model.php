@@ -9,8 +9,8 @@ if (!defined('WPINC')) {
 
 class Wishlist_Model
 {
-	const VISIBILITY_PRIVATE = 'private';
-	const VISIBILITY_PUBLIC = 'public';
+	const string VISIBILITY_PRIVATE = 'private';
+	const string VISIBILITY_PUBLIC = 'public';
 
 	private array $attributes = [
 		'user_id' => 0,
