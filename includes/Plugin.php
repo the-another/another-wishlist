@@ -15,7 +15,7 @@ final class Plugin
 
 	private string $version = '1.0.0';
 	private string $text_domain = 'another-wishlist';
-	private string $plugin_name = 'Another Wishlist';
+	private string $plugin_name = 'Another Woo Wishlist';
 	private string $plugin_file = __FILE__;
 
 	private array $post_types = [
@@ -56,6 +56,11 @@ final class Plugin
 	public function plugin_dir(): string
 	{
 		return plugin_dir_path($this->plugin_file);
+	}
+
+	public function initialized(): bool
+	{
+		return $this->initialized;
 	}
 
 	public function init(): void
