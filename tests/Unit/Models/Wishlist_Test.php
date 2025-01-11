@@ -110,6 +110,7 @@ class Wishlist_Test extends TestCase
 	 * @return void
 	 *
 	 * @covers \Another\Plugin\Another_Wishlist\Models\Wishlist_Model::__construct()
+	 * @covers \Another\Plugin\Another_Wishlist\Models\Wishlist_Model::fill()
 	 * @covers \Another\Plugin\Another_Wishlist\Models\Wishlist_Model::user_id()
 	 * @covers \Another\Plugin\Another_Wishlist\Models\Wishlist_Model::id()
 	 * @covers \Another\Plugin\Another_Wishlist\Models\Wishlist_Model::guid()
