@@ -40,8 +40,8 @@ jobs:
 
     strategy:
       matrix:
-        php_version: ["8.3"]
-        coverage: [false]
+#        php_version: ["8.3"]
+#        coverage: [false]
 
         # Run code coverage only on high/low PHP.
         include:
