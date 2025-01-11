@@ -66,6 +66,7 @@ class Plugin_Test extends TestCase
 	/**
 	 * @return void
 	 *
+	 * @covers \Another\Plugin\Another_Wishlist\Plugin::init()
 	 * @covers \Another\Plugin\Another_Wishlist\Plugin::initialized()
 	 */
 	public function test_initialized()
