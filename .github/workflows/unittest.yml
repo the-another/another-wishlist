@@ -14,7 +14,7 @@ on:
       - 'composer.lock'
       - 'phpunit.xml.dist'
       - 'phpunit-wp.xml.dist'
-      - '.github/workflows/test.yml'
+      - '.github/workflows/unittest.yml'
       - 'tests/**'
   pull_request:
     paths:
@@ -23,7 +23,7 @@ on:
       - 'composer.lock'
       - 'phpunit.xml.dist'
       - 'phpunit-wp.xml.dist'
-      - '.github/workflows/test.yml'
+      - '.github/workflows/unittest.yml'
       - 'tests/**'
   # Allow manually triggering the workflow.
   workflow_dispatch:
