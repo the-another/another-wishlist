@@ -40,7 +40,7 @@ jobs:
 
     strategy:
       matrix:
-        php_version: ["8.2", "8.3"]
+        php_version: ["8.3", "8.4"]
         coverage: [false]
 
         # Run code coverage only on high/low PHP.
@@ -59,14 +59,6 @@ jobs:
         with:
           # Bust the cache at least once a week - output format: YYYY-MM-DD.
           custom-cache-suffix: $(/bin/date -u --date='last Mon' "+%F")
-
-      # Remove packages which are not PHP cross-version compatible and only used for the prefixing.
-      # - humbug/php-scoper is only needed to actually do the prefixing, so won't be shipped anyway.
-      - name: Delete dev dependencies which are not cross-version compatible
-        run: composer remove --dev --no-scripts humbug/php-scoper
-
-      - name: Remove vendor directory
-        run: rm -rf vendor/*
 
       - name: Install PHP
         uses: shivammathur/setup-php@v2
