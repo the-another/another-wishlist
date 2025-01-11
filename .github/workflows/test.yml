@@ -40,13 +40,11 @@ jobs:
 
     strategy:
       matrix:
-        php_version: ["7.4", "8.0", "8.2"]
+        php_version: ["8.2", "8.3"]
         coverage: [false]
 
         # Run code coverage only on high/low PHP.
         include:
-          - php_version: 7.2
-            coverage: true
           - php_version: 8.3
             coverage: true
 
@@ -55,13 +53,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
-      # The prefix-dependencies task makes use of reflection-based PHP code that only works on PHP > 7.2.
-      - name: Install PHP 7.x for generating the vendor_prefixed directory and dependency injection
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: 7.2
-          coverage: none
 
       - name: Install Composer dependencies, generate vendor_prefixed directory and run dependency injection
         uses: ramsey/composer-install@v3
