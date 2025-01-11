@@ -72,20 +72,26 @@ class Wishlist_Repository
 	public function find_wishlist(int|string $wishlist_id): Wishlist_Model
 	{
 		if (wp_is_uuid($wishlist_id)) {
-			$wishlist_post = get_page_by_path($wishlist_id, self::OBJECT_IDS_META_KEY);
+			$wishlist_post = get_page_by_path($wishlist_id, OBJECT, Wishlist_Post_Type::POST_TYPE_NAME);
 		} elseif (is_numeric($wishlist_id)) {
 			$wishlist_post = get_post($wishlist_id);
 		} else {
 			throw new Repository_Exception('Invalid wishlist id');
 		}
 
+		/**
+		 * both get_page_by_path and get_post return null if post is not found
+		 *
+		 * @see https://developer.wordpress.org/reference/functions/get_page_by_path/
+		 * @see https://developer.wordpress.org/reference/functions/get_post/
+		 */
 		if (is_null($wishlist_post)) {
 			throw new Repository_Exception('Wishlist not found');
 		}
 
 		$object_ids = get_post_meta($wishlist_id, self::OBJECT_IDS_META_KEY, true);
 		if (empty($object_ids)) {
-			$object_ids = [];
+			$object_ids = array();
 		} else {
 			$object_ids = json_decode($object_ids, true);
 		}

@@ -14,6 +14,10 @@ if (!defined('WPINC')) {
 	define('WPINC', 'wp-includes');
 }
 
+if (!defined('OBJECT')) {
+	define('OBJECT', 'OBJECT');
+}
+
 /* ********************* LOAD TEST DOUBLES FOR WP NATIVE CLASSES ********************* */
 
 // Create the necessary test doubles for WP native classes on which properties are being set (PHP 8.2 compat).

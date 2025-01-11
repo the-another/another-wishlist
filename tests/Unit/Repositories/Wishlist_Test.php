@@ -222,4 +222,183 @@ class Wishlist_Test extends TestCase
 
 		$repo->create_wishlist($wishlist);
 	}
+
+	/**
+	 * @throws Repository_Exception
+	 * @throws ExpectationArgsRequired
+	 *
+	 * @covers Wishlist_Repository::find_wishlist
+	 */
+	public function test_find_wishlist_by_numeric_id()
+	{
+		$plugin = new Plugin();
+		$repo = new Wishlist_Repository($plugin);
+
+		$wishlist_post = Mockery::mock('WP_Post');
+		$wishlist_post->ID = 1;
+		$wishlist_post->post_author = 1;
+		$wishlist_post->post_title = 'Test Wishlist';
+		$wishlist_post->post_name = '4d59e1ac-0e1b-4d20-94b6-2dbfa8159850';
+		$wishlist_post->post_status = Wishlist_Model::VISIBILITY_PRIVATE;
+		$wishlist_post->post_content = '';
+
+
+		Functions\expect('get_post')->with(1)->andReturn($wishlist_post);
+
+		Functions\expect('get_post_meta')
+			->with(1, Wishlist_Repository::OBJECT_IDS_META_KEY, true)
+			->once()
+			->andReturn(json_encode([1, 2, 3]));
+
+		Functions\expect('wp_is_uuid')->andReturn(false);
+
+		$wishlist = $repo->find_wishlist(1);
+		$this->assertEquals(1, $wishlist->id());
+		$this->assertEquals('Test Wishlist', $wishlist->title());
+		$this->assertEquals('4d59e1ac-0e1b-4d20-94b6-2dbfa8159850', $wishlist->guid());
+		$this->assertEquals(1, $wishlist->user_id());
+		$this->assertEquals(Wishlist_Model::VISIBILITY_PRIVATE, $wishlist->visibility());
+		$this->assertEquals([1, 2, 3], $wishlist->object_ids());
+	}
+
+	/**
+	 * @return void
+	 * @throws ExpectationArgsRequired
+	 * @throws Repository_Exception
+	 *
+	 * @covers Wishlist_Repository::find_wishlist
+	 */
+	public function test_find_wishlist_by_uuid()
+	{
+		$plugin = new Plugin();
+		$repo = new Wishlist_Repository($plugin);
+
+		$wishlist_post = Mockery::mock('WP_Post');
+		$wishlist_post->ID = 1;
+		$wishlist_post->post_author = 1;
+		$wishlist_post->post_title = 'Test Wishlist';
+		$wishlist_post->post_name = '4d59e1ac-0e1b-4d20-94b6-2dbfa8159850';
+		$wishlist_post->post_status = Wishlist_Model::VISIBILITY_PRIVATE;
+		$wishlist_post->post_content = '';
+
+		Functions\expect('get_page_by_path')
+			->with(
+				'4d59e1ac-0e1b-4d20-94b6-2dbfa8159850',
+				OBJECT,
+				Wishlist_Post_Type::POST_TYPE_NAME
+			)
+			->andReturn($wishlist_post);
+
+		Functions\expect('get_post_meta')
+			->with(1, Wishlist_Repository::OBJECT_IDS_META_KEY, true)
+			->once()
+			->andReturn(json_encode([1, 2, 3]));
+
+		Functions\expect('wp_is_uuid')->andReturn(true);
+
+		$wishlist = $repo->find_wishlist('4d59e1ac-0e1b-4d20-94b6-2dbfa8159850');
+		$this->assertEquals(1, $wishlist->id());
+		$this->assertEquals('Test Wishlist', $wishlist->title());
+		$this->assertEquals('4d59e1ac-0e1b-4d20-94b6-2dbfa8159850', $wishlist->guid());
+		$this->assertEquals(1, $wishlist->user_id());
+		$this->assertEquals(Wishlist_Model::VISIBILITY_PRIVATE, $wishlist->visibility());
+		$this->assertEquals([1, 2, 3], $wishlist->object_ids());
+	}
+
+	/**
+	 * @return void
+	 * @throws Repository_Exception
+	 *
+	 * @covers Wishlist_Repository::find_wishlist
+	 */
+	public function test_find_wishlist_by_numeric_id_failure()
+	{
+		$plugin = new Plugin();
+		$repo = new Wishlist_Repository($plugin);
+
+		Functions\expect('get_post')->andReturn(null);
+		Functions\expect('wp_is_uuid')->andReturn(false);
+
+		$this->expectException(Repository_Exception::class);
+		$this->expectExceptionMessage('Wishlist not found');
+
+		$repo->find_wishlist(1);
+	}
+
+	/**
+	 * @return void
+	 * @throws Repository_Exception
+	 *
+	 * @covers Wishlist_Repository::find_wishlist
+	 */
+	public function test_find_wishlist_by_uuid_failure()
+	{
+		$plugin = new Plugin();
+		$repo = new Wishlist_Repository($plugin);
+
+		Functions\expect('get_page_by_path')->andReturn(null);
+		Functions\expect('wp_is_uuid')->andReturn(true);
+
+		$this->expectException(Repository_Exception::class);
+		$this->expectExceptionMessage('Wishlist not found');
+
+		$repo->find_wishlist('4d59e1ac-0e1b-4d20-94b6-2dbfa8159850');
+	}
+
+	/**
+	 * @return void
+	 * @throws Repository_Exception
+	 *
+	 * @covers Wishlist_Repository::find_wishlist
+	 */
+	public function test_find_wishlist_invalid_id()
+	{
+		$plugin = new Plugin();
+		$repo = new Wishlist_Repository($plugin);
+
+		Functions\expect('wp_is_uuid')->andReturn(false);
+
+		$this->expectException(Repository_Exception::class);
+		$this->expectExceptionMessage('Invalid wishlist id');
+
+		// this can be anything but numeric or uuid, it should fail
+		$repo->find_wishlist('invalid');
+	}
+
+	/**
+	 * @return void
+	 *
+	 * @throws ExpectationArgsRequired
+	 * @throws Repository_Exception
+	 * @covers Wishlist_Repository::find_wishlist
+	 */
+	public function test_find_wishlist_empty_objects() {
+		$plugin = new Plugin();
+		$repo = new Wishlist_Repository($plugin);
+
+		$wishlist_post = Mockery::mock('WP_Post');
+		$wishlist_post->ID = 1;
+		$wishlist_post->post_author = 1;
+		$wishlist_post->post_title = 'Test Wishlist';
+		$wishlist_post->post_name = '4d59e1ac-0e1b-4d20-94b6-2dbfa8159850';
+		$wishlist_post->post_status = Wishlist_Model::VISIBILITY_PRIVATE;
+		$wishlist_post->post_content = '';
+
+		Functions\expect('get_post')->with(1)->andReturn($wishlist_post);
+
+		Functions\expect('get_post_meta')
+			->with(1, Wishlist_Repository::OBJECT_IDS_META_KEY, true)
+			->once()
+			->andReturn('');
+
+		Functions\expect('wp_is_uuid')->andReturn(false);
+
+		$wishlist = $repo->find_wishlist(1);
+		$this->assertEquals(1, $wishlist->id());
+		$this->assertEquals('Test Wishlist', $wishlist->title());
+		$this->assertEquals('4d59e1ac-0e1b-4d20-94b6-2dbfa8159850', $wishlist->guid());
+		$this->assertEquals(1, $wishlist->user_id());
+		$this->assertEquals(Wishlist_Model::VISIBILITY_PRIVATE, $wishlist->visibility());
+		$this->assertEquals(array(), $wishlist->object_ids());
+	}
 }
