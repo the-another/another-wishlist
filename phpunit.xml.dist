@@ -22,7 +22,7 @@
       <file>./another-wishlist.php</file>
     </include>
     <report>
-      <clover outputFile="logs/clover.xml"/>
+      <clover outputFile="build/logs/clover.xml"/>
       <text outputFile="php://stdout" showOnlySummary="true"/>
     </report>
   </coverage>
