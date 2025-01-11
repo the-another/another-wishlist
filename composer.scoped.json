@@ -1,0 +1,7 @@
+{
+    "require": {
+      "yoast/whip": "^2.0",
+      "symfony/deprecation-contracts": "^3.5"
+    },
+    "scripts": {}
+}

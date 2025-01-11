@@ -1,0 +1,67 @@
+services:
+  -
+    class: Google\Web_Stories\PHPStan\ServiceContainerDynamicReturnTypeExtension
+    tags:
+      - phpstan.broker.dynamicMethodReturnTypeExtension
+  -
+    class: Google\Web_Stories\PHPStan\ServicesDynamicReturnTypeExtension
+    tags:
+      - phpstan.broker.dynamicStaticMethodReturnTypeExtension
+
+includes:
+	- vendor/phpstan/phpstan/conf/bleedingEdge.neon
+
+parameters:
+  level: 9
+  inferPrivatePropertyTypeFromConstructor: true
+  ignoreErrors:
+    -
+      identifier: missingType.generics
+    -
+      identifier: requireOnce.fileNotFound
+    -
+      identifier: require.fileNotFound
+    -
+      message: '/^Parameter #2 \$args of method WP_Customize_Manager::add_setting\(\)/'
+      path: includes/Admin/Customizer.php
+    -
+      message: '/\(int\) does not accept int\|WP_Error\.$/'
+      path: tests/phpunit/integration/tests
+    -
+      message: '/^Parameter #1 \$post of function set_post_thumbnail expects int\|WP_Post, int\|WP_Error given\.$/'
+      path: tests/phpunit/integration/tests
+    -
+      message: '/^Call to deprecated method _get_first_available_transport\(\)/'
+      path: includes/REST_API/Hotlinking_Controller.php
+  paths:
+    - includes/
+    - tests/phpunit/integration/includes
+    - tests/phpunit/integration/tests
+    - tests/phpunit/unit/includes/
+    - tests/phpunit/unit/tests/
+    - uninstall.php
+  excludePaths:
+    - includes/vendor/*
+    - includes/polyfills/*
+  scanDirectories:
+    - third-party/
+  scanFiles:
+    - web-stories.php
+    - vendor/php-stubs/wordpress-tests-stubs/wordpress-tests-stubs.php
+    - tests/phpstan/stubs/amp.php
+    - tests/phpstan/stubs/wordpress-seo.php
+    - tests/phpstan/stubs/wp-cli.php
+    - tests/phpstan/stubs/wpdotcom.php
+  stubFiles:
+    - tests/phpstan/stubs/wordpress-override.php
+  bootstrapFiles:
+    - tests/phpstan/bootstrap.php
+    - third-party/vendor/ampproject/amp-wp/includes/sanitizers/class-amp-base-sanitizer.php
+    - third-party/vendor/ampproject/amp-wp/includes/sanitizers/class-amp-meta-sanitizer.php
+    - vendor/php-stubs/woocommerce-stubs/woocommerce-stubs.php
+  dynamicConstantNames:
+    - WEBSTORIES_DEV_MODE
+    - WPCOM_IS_VIP_ENV
+    - IS_WPCOM
+    - GOOGLESITEKIT_VERSION
+    - AMP__VERSION
