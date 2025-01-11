@@ -66,6 +66,6 @@ jobs:
         env:
           COVERALLS_SERVICE_NUMBER: ${{ github.sha }} # Connect all builds together.
         with:
-          github-token: ${{ secrets.COVERALLS_TOKEN }}
+          github-token: ${{ secrets.COVERALLS_REPO_TOKEN }}
           carryforward: "unit-php-8.3,package-another-wishlist"
           parallel-finished: true
