@@ -18,9 +18,9 @@ class Wishlist_Test extends TestCase
 	/**
 	 * @return void
 	 *
-	 * @covers Wishlist_Model::__construct
-	 * @covers Wishlist_Model::user_id
-	 * @covers Wishlist_Model::set_user_id
+	 * @covers \Another\Plugin\Another_Wishlist\Models\Wishlist_Model::__construct()
+	 * @covers \Another\Plugin\Another_Wishlist\Models\Wishlist_Model::user_id()
+	 * @covers \Another\Plugin\Another_Wishlist\Models\Wishlist_Model::set_user_id()
 	 */
 	public function test_user_id()
 	{
@@ -31,9 +31,9 @@ class Wishlist_Test extends TestCase
 	/**
 	 * @return void
 	 *
-	 * @covers Wishlist_Model::__construct
-	 * @covers Wishlist_Model::id
-	 * @covers Wishlist_Model::set_id
+	 * @covers \Another\Plugin\Another_Wishlist\Models\Wishlist_Model::__construct()
+	 * @covers \Another\Plugin\Another_Wishlist\Models\Wishlist_Model::id()
+	 * @covers \Another\Plugin\Another_Wishlist\Models\Wishlist_Model::set_id()
 	 */
 	public function test_id()
 	{
@@ -44,9 +44,9 @@ class Wishlist_Test extends TestCase
 	/**
 	 * @return void
 	 *
-	 * @covers Wishlist_Model::__construct
-	 * @covers Wishlist_Model::guid
-	 * @covers Wishlist_Model::set_guid
+	 * @covers \Another\Plugin\Another_Wishlist\Models\Wishlist_Model::__construct()
+	 * @covers \Another\Plugin\Another_Wishlist\Models\Wishlist_Model::guid()
+	 * @covers \Another\Plugin\Another_Wishlist\Models\Wishlist_Model::set_guid()
 	 */
 	public function test_guid()
 	{
@@ -57,9 +57,9 @@ class Wishlist_Test extends TestCase
 	/**
 	 * @return void
 	 *
-	 * @covers Wishlist_Model::__construct
-	 * @covers Wishlist_Model::title
-	 * @covers Wishlist_Model::set_title
+	 * @covers \Another\Plugin\Another_Wishlist\Models\Wishlist_Model::__construct()
+	 * @covers \Another\Plugin\Another_Wishlist\Models\Wishlist_Model::title()
+	 * @covers \Another\Plugin\Another_Wishlist\Models\Wishlist_Model::set_title()
 	 */
 	public function test_title()
 	{
@@ -70,9 +70,9 @@ class Wishlist_Test extends TestCase
 	/**
 	 * @return void
 	 *
-	 * @covers Wishlist_Model::__construct
-	 * @covers Wishlist_Model::description
-	 * @covers Wishlist_Model::set_description
+	 * @covers \Another\Plugin\Another_Wishlist\Models\Wishlist_Model::__construct()
+	 * @covers \Another\Plugin\Another_Wishlist\Models\Wishlist_Model::description()
+	 * @covers \Another\Plugin\Another_Wishlist\Models\Wishlist_Model::set_description()
 	 */
 	public function test_description()
 	{
@@ -83,9 +83,9 @@ class Wishlist_Test extends TestCase
 	/**
 	 * @return void
 	 *
-	 * @covers Wishlist_Model::__construct
-	 * @covers Wishlist_Model::object_ids
-	 * @covers Wishlist_Model::set_object_ids
+	 * @covers \Another\Plugin\Another_Wishlist\Models\Wishlist_Model::__construct()
+	 * @covers \Another\Plugin\Another_Wishlist\Models\Wishlist_Model::object_ids()
+	 * @covers \Another\Plugin\Another_Wishlist\Models\Wishlist_Model::set_object_ids()
 	 */
 	public function test_object_ids()
 	{
@@ -96,9 +96,9 @@ class Wishlist_Test extends TestCase
 	/**
 	 * @return void
 	 *
-	 * @covers Wishlist_Model::__construct
-	 * @covers Wishlist_Model::visibility
-	 * @covers Wishlist_Model::set_visibility
+	 * @covers \Another\Plugin\Another_Wishlist\Models\Wishlist_Model::__construct()
+	 * @covers \Another\Plugin\Another_Wishlist\Models\Wishlist_Model::visibility()
+	 * @covers \Another\Plugin\Another_Wishlist\Models\Wishlist_Model::set_visibility()
 	 */
 	public function test_visibility()
 	{
@@ -109,21 +109,21 @@ class Wishlist_Test extends TestCase
 	/**
 	 * @return void
 	 *
-	 * @covers Wishlist_Model::__construct
-	 * @covers Wishlist_Model::user_id
-	 * @covers Wishlist_Model::id
-	 * @covers Wishlist_Model::guid
-	 * @covers Wishlist_Model::title
-	 * @covers Wishlist_Model::description
-	 * @covers Wishlist_Model::object_ids
-	 * @covers Wishlist_Model::visibility
-	 * @covers Wishlist_Model::set_id
-	 * @covers Wishlist_Model::set_user_id
-	 * @covers Wishlist_Model::set_guid
-	 * @covers Wishlist_Model::set_title
-	 * @covers Wishlist_Model::set_description
-	 * @covers Wishlist_Model::set_object_ids
-	 * @covers Wishlist_Model::set_visibility
+	 * @covers \Another\Plugin\Another_Wishlist\Models\Wishlist_Model::__construct()
+	 * @covers \Another\Plugin\Another_Wishlist\Models\Wishlist_Model::user_id()
+	 * @covers \Another\Plugin\Another_Wishlist\Models\Wishlist_Model::id()
+	 * @covers \Another\Plugin\Another_Wishlist\Models\Wishlist_Model::guid()
+	 * @covers \Another\Plugin\Another_Wishlist\Models\Wishlist_Model::title()
+	 * @covers \Another\Plugin\Another_Wishlist\Models\Wishlist_Model::description()
+	 * @covers \Another\Plugin\Another_Wishlist\Models\Wishlist_Model::object_ids()
+	 * @covers \Another\Plugin\Another_Wishlist\Models\Wishlist_Model::visibility()
+	 * @covers \Another\Plugin\Another_Wishlist\Models\Wishlist_Model::set_id()
+	 * @covers \Another\Plugin\Another_Wishlist\Models\Wishlist_Model::set_user_id()
+	 * @covers \Another\Plugin\Another_Wishlist\Models\Wishlist_Model::set_guid()
+	 * @covers \Another\Plugin\Another_Wishlist\Models\Wishlist_Model::set_title()
+	 * @covers \Another\Plugin\Another_Wishlist\Models\Wishlist_Model::set_description()
+	 * @covers \Another\Plugin\Another_Wishlist\Models\Wishlist_Model::set_object_ids()
+	 * @covers \Another\Plugin\Another_Wishlist\Models\Wishlist_Model::set_visibility()
 	 */
 	public function test_multiple_attributes()
 	{

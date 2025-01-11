@@ -19,7 +19,7 @@
 >
   <coverage includeUncoveredFiles="true" processUncoveredFiles="false">
     <include>
-      <file>./another-wishlist.php</file>
+      <directory>./includes</directory>
     </include>
     <report>
       <clover outputFile="build/logs/clover.xml"/>

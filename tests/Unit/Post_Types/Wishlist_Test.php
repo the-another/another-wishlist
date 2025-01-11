@@ -14,8 +14,9 @@ use Mockery;
 final class Wishlist_Test extends TestCase
 {
 	/**
-	 * @covers Post_Type_Wishlist::register
 	 * @return void
+	 *
+	 * @covers \Another\Plugin\Another_Wishlist\Post_Types\Wishlist_Post_Type::register()
 	 */
 	public function test_register_success(): void
 	{
@@ -37,8 +38,9 @@ final class Wishlist_Test extends TestCase
 	}
 
 	/**
-	 * @covers Post_Type_Wishlist::register
 	 * @return void
+	 *
+	 * @covers \Another\Plugin\Another_Wishlist\Post_Types\Wishlist_Post_Type::register()
 	 */
 	public function test_register_failure(): void
 	{
@@ -60,8 +62,9 @@ final class Wishlist_Test extends TestCase
 	}
 
 	/**
-	 * @covers Post_Type_Wishlist::register_post_type
 	 * @return void
+	 *
+	 * @covers \Another\Plugin\Another_Wishlist\Post_Types\Wishlist_Post_Type::register_post_type()
 	 */
 	public function test_register_post_type_success(): void
 	{
@@ -83,9 +86,10 @@ final class Wishlist_Test extends TestCase
 	}
 
 	/**
-	 * @covers Post_Type_Wishlist::register_post_type
 	 * @return void
 	 * @throws ExpectationArgsRequired
+	 *
+	 * @covers \Another\Plugin\Another_Wishlist\Post_Types\Wishlist_Post_Type::register_post_type()
 	 */
 	public function test_register_post_type_failed(): void
 	{

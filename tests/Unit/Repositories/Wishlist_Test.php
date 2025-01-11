@@ -31,7 +31,7 @@ class Wishlist_Test extends TestCase
 	/**
 	 * @return void
 	 *
-	 * @covers Wishlist_Repository::next_order_increment
+	 * @covers \Another\Plugin\Another_Wishlist\Repositories\Wishlist_Repository::next_order_increment()
 	 */
 	public function test_next_order_first()
 	{
@@ -67,7 +67,7 @@ class Wishlist_Test extends TestCase
 	/**
 	 * @return void
 	 *
-	 * @covers Wishlist_Repository::next_order_increment
+	 * @covers \Another\Plugin\Another_Wishlist\Repositories\Wishlist_Repository::next_order_increment()
 	 */
 	public function test_next_order_up()
 	{
@@ -104,7 +104,7 @@ class Wishlist_Test extends TestCase
 	 * @throws ExpectationArgsRequired
 	 * @throws Repository_Exception
 	 *
-	 * @covers Wishlist_Repository::create_wishlist
+	 * @covers \Another\Plugin\Another_Wishlist\Repositories\Wishlist_Repository::create_wishlist()
 	 */
 	public function test_create_wishlist()
 	{
@@ -143,7 +143,7 @@ class Wishlist_Test extends TestCase
 	 * @throws ExpectationArgsRequired
 	 * @throws Repository_Exception
 	 *
-	 * @covers Wishlist_Repository::create_wishlist
+	 * @covers \Another\Plugin\Another_Wishlist\Repositories\Wishlist_Repository::create_wishlist()
 	 */
 	public function test_create_wishlist_failure()
 	{
@@ -185,7 +185,7 @@ class Wishlist_Test extends TestCase
 	 * @throws ExpectationArgsRequired
 	 * @throws Repository_Exception
 	 *
-	 * @covers Wishlist_Repository::create_wishlist
+	 * @covers \Another\Plugin\Another_Wishlist\Repositories\Wishlist_Repository::create_wishlist()
 	 */
 	public function test_create_wishlist_failure_meta()
 	{
@@ -227,7 +227,7 @@ class Wishlist_Test extends TestCase
 	 * @throws Repository_Exception
 	 * @throws ExpectationArgsRequired
 	 *
-	 * @covers Wishlist_Repository::find_wishlist
+	 * @covers \Another\Plugin\Another_Wishlist\Repositories\Wishlist_Repository::find_wishlist()
 	 */
 	public function test_find_wishlist_by_numeric_id()
 	{
@@ -266,7 +266,7 @@ class Wishlist_Test extends TestCase
 	 * @throws ExpectationArgsRequired
 	 * @throws Repository_Exception
 	 *
-	 * @covers Wishlist_Repository::find_wishlist
+	 * @covers \Another\Plugin\Another_Wishlist\Repositories\Wishlist_Repository::find_wishlist()
 	 */
 	public function test_find_wishlist_by_uuid()
 	{
@@ -309,7 +309,7 @@ class Wishlist_Test extends TestCase
 	 * @return void
 	 * @throws Repository_Exception
 	 *
-	 * @covers Wishlist_Repository::find_wishlist
+	 * @covers \Another\Plugin\Another_Wishlist\Repositories\Wishlist_Repository::find_wishlist()
 	 */
 	public function test_find_wishlist_by_numeric_id_failure()
 	{
@@ -329,7 +329,7 @@ class Wishlist_Test extends TestCase
 	 * @return void
 	 * @throws Repository_Exception
 	 *
-	 * @covers Wishlist_Repository::find_wishlist
+	 * @covers \Another\Plugin\Another_Wishlist\Repositories\Wishlist_Repository::find_wishlist()
 	 */
 	public function test_find_wishlist_by_uuid_failure()
 	{
@@ -349,7 +349,7 @@ class Wishlist_Test extends TestCase
 	 * @return void
 	 * @throws Repository_Exception
 	 *
-	 * @covers Wishlist_Repository::find_wishlist
+	 * @covers \Another\Plugin\Another_Wishlist\Repositories\Wishlist_Repository::find_wishlist()
 	 */
 	public function test_find_wishlist_invalid_id()
 	{
@@ -370,7 +370,7 @@ class Wishlist_Test extends TestCase
 	 *
 	 * @throws ExpectationArgsRequired
 	 * @throws Repository_Exception
-	 * @covers Wishlist_Repository::find_wishlist
+	 * @covers \Another\Plugin\Another_Wishlist\Repositories\Wishlist_Repository::find_wishlist()
 	 */
 	public function test_find_wishlist_empty_objects() {
 		$plugin = new Plugin();

@@ -6,3 +6,6 @@ vendor_prefixed/*
 .DS_Store
 tmp-*
 tmp-*/*
+build
+build/*
+.phpunit.result.cache
