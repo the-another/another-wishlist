@@ -43,8 +43,8 @@ jobs:
             echo "NAME=$BASE_REF" >> "$GITHUB_OUTPUT"
             echo "REF=origin/$BASE_REF" >> "$GITHUB_OUTPUT"
           else
-            echo 'NAME=trunk' >> "$GITHUB_OUTPUT"
-            echo "REF=origin/trunk" >> "$GITHUB_OUTPUT"
+            echo 'NAME=master' >> "$GITHUB_OUTPUT"
+            echo "REF=origin/master" >> "$GITHUB_OUTPUT"
           fi
 
       - name: Fetch base branch
