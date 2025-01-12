@@ -117,23 +117,6 @@ final class Wishlist_Test extends TestCase {
 	}
 
 	/**
-	 * @throws ExpectationArgsRequired
-	 *
-	 * @covers \Another\Plugin\Another_Wishlist\Post_Types\Wishlist_Post_Type::hook()
-	 */
-	public function test_hook(): void {
-		Actions\expectAdded( 'init' )
-			->with(
-				Mockery::on(
-					static fn( $callback ) => \is_array( $callback ) && 'register_post_type' === $callback[1]
-				)
-			)
-			->once();
-
-		Wishlist_Post_Type::hook();
-	}
-
-	/**
 	 * @covers \Another\Plugin\Another_Wishlist\Post_Types\Wishlist_Post_Type::supports()
 	 */
 	public function test_supports(): void {

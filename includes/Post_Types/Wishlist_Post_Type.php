@@ -39,16 +39,6 @@ class Wishlist_Post_Type {
 	}
 
 	/**
-	 * Hook post type into WordPress
-	 *
-	 * @return void
-	 */
-	public static function hook(): void {
-		$instance = new self();
-		add_action( 'init', array( $instance, 'register_post_type' ) );
-	}
-
-	/**
 	 * Register post type
 	 *
 	 * @return void

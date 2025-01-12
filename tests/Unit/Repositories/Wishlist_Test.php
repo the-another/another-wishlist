@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare( strict_types = 1 );
 
 namespace Another\Plugin\Another_Wishlist\Tests\Unit\Repositories;
 
@@ -115,16 +115,28 @@ class Wishlist_Test extends TestCase {
 			->with(
 				Mockery::on(
 					static fn( $args ) => $args['post_type'] === Wishlist_Post_Type::POST_TYPE_NAME
-						&& $args['post_title'] === $wishlist->title()
-						&& $args['post_name'] === '4d59e1ac-0e1b-4d20-94b6-2dbfa8159850'
-						&& $args['post_author'] === $wishlist->user_id()
-						&& $args['post_status'] === $wishlist->visibility()
+											&& $args['post_title'] === $wishlist->title()
+											&& $args['post_name'] === '4d59e1ac-0e1b-4d20-94b6-2dbfa8159850'
+											&& $args['post_author'] === $wishlist->user_id()
+											&& $args['post_status'] === $wishlist->visibility()
 				)
 			)->andReturn( 1 );
 		Functions\expect( 'add_post_meta' )
 			->once()
 			->with( 1, Wishlist_Repository::OBJECT_IDS_META_KEY, json_encode( $wishlist->object_ids() ), true )
 			->andReturn( 1 );
+
+
+		Functions\expect( 'wp_cache_set_multiple' )
+			->once()
+			->with(
+				array(
+					sprintf( 'wishlist-%s', $wishlist->guid() )  => $wishlist->json(),
+					sprintf( 'wishlist-id:%d', $wishlist->id() ) => $wishlist->json(),
+				),
+				Wishlist_Repository::CACHE_GROUP,
+				$repo->cache_ttl()
+			);
 
 		$wishlist_id = $repo->create_wishlist( $wishlist );
 		$this->assertEquals( 1, $wishlist_id );
@@ -160,10 +172,10 @@ class Wishlist_Test extends TestCase {
 			->with(
 				Mockery::on(
 					static fn( $args ) => Wishlist_Post_Type::POST_TYPE_NAME === $args['post_type']
-						&& $args['post_title'] === $wishlist->title()
-						&& '4d59e1ac-0e1b-4d20-94b6-2dbfa8159850' === $args['post_name']
-						&& $args['post_author'] === $wishlist->user_id()
-						&& $args['post_status'] === $wishlist->visibility()
+											&& $args['post_title'] === $wishlist->title()
+											&& '4d59e1ac-0e1b-4d20-94b6-2dbfa8159850' === $args['post_name']
+											&& $args['post_author'] === $wishlist->user_id()
+											&& $args['post_status'] === $wishlist->visibility()
 				)
 			)->andReturn( $error );
 
@@ -198,10 +210,10 @@ class Wishlist_Test extends TestCase {
 			->with(
 				Mockery::on(
 					static fn( $args ) => Wishlist_Post_Type::POST_TYPE_NAME === $args['post_type']
-						&& $args['post_title'] === $wishlist->title()
-						&& '4d59e1ac-0e1b-4d20-94b6-2dbfa8159850' === $args['post_name']
-						&& $args['post_author'] === $wishlist->user_id()
-						&& $args['post_status'] === $wishlist->visibility()
+											&& $args['post_title'] === $wishlist->title()
+											&& '4d59e1ac-0e1b-4d20-94b6-2dbfa8159850' === $args['post_name']
+											&& $args['post_author'] === $wishlist->user_id()
+											&& $args['post_status'] === $wishlist->visibility()
 				)
 			)->andReturn( 1 );
 
@@ -382,5 +394,55 @@ class Wishlist_Test extends TestCase {
 		$this->assertEquals( 1, $wishlist->user_id() );
 		$this->assertEquals( Wishlist_Model::VISIBILITY_PRIVATE, $wishlist->visibility() );
 		$this->assertEquals( array(), $wishlist->object_ids() );
+	}
+
+	/**
+	 * @covers \Another\Plugin\Another_Wishlist\Repositories\Wishlist_Repository::load_wishlist()
+	 */
+	public function test_load_wishlist_from_numeric_id(): void {
+		$plugin = new Plugin();
+		$repo   = new Wishlist_Repository( $plugin );
+
+		$wishlist = new Wishlist_Model(
+			array(
+				'id'         => 1,
+				'user_id'    => 1,
+				'guid'       => '4d59e1ac-0e1b-4d20-94b6-2dbfa8159850',
+				'title'      => 'Test Wishlist',
+				'object_ids' => array( 1, 2, 3 ),
+			)
+		);
+
+		Functions\expect( 'wp_is_uuid' )->andReturn( false );
+
+		Functions\expect( 'wp_cache_get' )->andReturn( $wishlist->json() );
+
+		$loaded_wishlist = $repo->load_wishlist( 1 );
+		$this->assertEquals( $wishlist, $loaded_wishlist );
+	}
+
+	/**
+	 * @covers \Another\Plugin\Another_Wishlist\Repositories\Wishlist_Repository::load_wishlist()
+	 */
+	public function test_load_wishlist_from_uuid(): void {
+		$plugin = new Plugin();
+		$repo   = new Wishlist_Repository( $plugin );
+
+		$wishlist = new Wishlist_Model(
+			array(
+				'id'         => 1,
+				'user_id'    => 1,
+				'guid'       => '4d59e1ac-0e1b-4d20-94b6-2dbfa8159850',
+				'title'      => 'Test Wishlist',
+				'object_ids' => array( 1, 2, 3 ),
+			)
+		);
+
+		Functions\expect( 'wp_is_uuid' )->andReturn( true );
+
+		Functions\expect( 'wp_cache_get' )->andReturn( $wishlist->json() );
+
+		$loaded_wishlist = $repo->load_wishlist( '4d59e1ac-0e1b-4d20-94b6-2dbfa8159850' );
+		$this->assertEquals( $wishlist, $loaded_wishlist );
 	}
 }

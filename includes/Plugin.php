@@ -86,11 +86,40 @@ final class Plugin {
 			return;
 		}
 
-		foreach ( $this->post_types as $post_type ) {
-			$post_type::hook();
+		$this->init_global();
+
+		if ( is_admin() ) {
+			$this->init_admin();
+		} else {
+			$this->init_frontend();
 		}
 
 		$this->initialized = true;
+	}
+
+	/**
+	 * Global init hooks.
+	 *
+	 * @return void
+	 */
+	public function init_global(): void {
+		add_action( 'init', array( Wishlist_Post_Type::class, 'register_post_type' ) );
+	}
+
+	/**
+	 * Initialize admin hooks.
+	 *
+	 * @return void
+	 */
+	public function init_admin(): void {
+	}
+
+	/**
+	 * Initialize frontend hooks.
+	 *
+	 * @return void
+	 */
+	public function init_frontend(): void {
 	}
 
 	/**

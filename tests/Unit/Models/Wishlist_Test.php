@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare( strict_types = 1 );
 
 namespace Another\Plugin\Another_Wishlist\Tests\Unit\Models;
 
@@ -16,6 +16,8 @@ class Wishlist_Test extends TestCase {
 	}
 
 	/**
+	 * @return void
+	 *
 	 * @covers \Another\Plugin\Another_Wishlist\Models\Wishlist_Model::__construct()
 	 * @covers \Another\Plugin\Another_Wishlist\Models\Wishlist_Model::user_id()
 	 * @covers \Another\Plugin\Another_Wishlist\Models\Wishlist_Model::set_user_id()
@@ -26,6 +28,8 @@ class Wishlist_Test extends TestCase {
 	}
 
 	/**
+	 * @return void
+	 *
 	 * @covers \Another\Plugin\Another_Wishlist\Models\Wishlist_Model::__construct()
 	 * @covers \Another\Plugin\Another_Wishlist\Models\Wishlist_Model::id()
 	 * @covers \Another\Plugin\Another_Wishlist\Models\Wishlist_Model::set_id()
@@ -36,6 +40,8 @@ class Wishlist_Test extends TestCase {
 	}
 
 	/**
+	 * @return void
+	 *
 	 * @covers \Another\Plugin\Another_Wishlist\Models\Wishlist_Model::__construct()
 	 * @covers \Another\Plugin\Another_Wishlist\Models\Wishlist_Model::guid()
 	 * @covers \Another\Plugin\Another_Wishlist\Models\Wishlist_Model::set_guid()
@@ -46,6 +52,8 @@ class Wishlist_Test extends TestCase {
 	}
 
 	/**
+	 * @return void
+	 *
 	 * @covers \Another\Plugin\Another_Wishlist\Models\Wishlist_Model::__construct()
 	 * @covers \Another\Plugin\Another_Wishlist\Models\Wishlist_Model::title()
 	 * @covers \Another\Plugin\Another_Wishlist\Models\Wishlist_Model::set_title()
@@ -56,6 +64,8 @@ class Wishlist_Test extends TestCase {
 	}
 
 	/**
+	 * @return void
+	 *
 	 * @covers \Another\Plugin\Another_Wishlist\Models\Wishlist_Model::__construct()
 	 * @covers \Another\Plugin\Another_Wishlist\Models\Wishlist_Model::description()
 	 * @covers \Another\Plugin\Another_Wishlist\Models\Wishlist_Model::set_description()
@@ -66,6 +76,8 @@ class Wishlist_Test extends TestCase {
 	}
 
 	/**
+	 * @return void
+	 *
 	 * @covers \Another\Plugin\Another_Wishlist\Models\Wishlist_Model::__construct()
 	 * @covers \Another\Plugin\Another_Wishlist\Models\Wishlist_Model::object_ids()
 	 * @covers \Another\Plugin\Another_Wishlist\Models\Wishlist_Model::set_object_ids()
@@ -76,6 +88,43 @@ class Wishlist_Test extends TestCase {
 	}
 
 	/**
+	 * @return void
+	 *
+	 * @covers \Another\Plugin\Another_Wishlist\Models\Wishlist_Model::__construct()
+	 * @covers \Another\Plugin\Another_Wishlist\Models\Wishlist_Model::object_ids()
+	 */
+	public function test_object_ids_sort(): void {
+		$wishlist = new Wishlist_Model( array( 'object_ids' => array( 3, 2, 1 ) ) );
+		$this->assertEquals( array( 1, 2, 3 ), $wishlist->object_ids() );
+	}
+
+	/**
+	 * @return void
+	 *
+	 * @covers \Another\Plugin\Another_Wishlist\Models\Wishlist_Model::__construct()
+	 * @covers \Another\Plugin\Another_Wishlist\Models\Wishlist_Model::add_object_id()
+	 */
+	public function test_add_object_id(): void {
+		$wishlist = new Wishlist_Model( array( 'object_ids' => array( 2, 1, 3 ) ) );
+		$wishlist->add_object_id( 4 );
+		$this->assertEquals( array( 1, 2, 3, 4 ), $wishlist->object_ids() );
+	}
+
+	/**
+	 * @return void
+	 *
+	 * @covers \Another\Plugin\Another_Wishlist\Models\Wishlist_Model::__construct()
+	 * @covers \Another\Plugin\Another_Wishlist\Models\Wishlist_Model::remove_object_id()
+	 */
+	public function test_remove_object_id(): void {
+		$wishlist = new Wishlist_Model( array( 'object_ids' => array( 3, 2, 1 ) ) );
+		$wishlist->remove_object_id( 2 );
+		$this->assertEquals( array( 1, 3 ), $wishlist->object_ids() );
+	}
+
+	/**
+	 * @return void
+	 *
 	 * @covers \Another\Plugin\Another_Wishlist\Models\Wishlist_Model::__construct()
 	 * @covers \Another\Plugin\Another_Wishlist\Models\Wishlist_Model::visibility()
 	 * @covers \Another\Plugin\Another_Wishlist\Models\Wishlist_Model::set_visibility()
@@ -86,6 +135,8 @@ class Wishlist_Test extends TestCase {
 	}
 
 	/**
+	 * @return void
+	 *
 	 * @covers \Another\Plugin\Another_Wishlist\Models\Wishlist_Model::__construct()
 	 * @covers \Another\Plugin\Another_Wishlist\Models\Wishlist_Model::fill()
 	 * @covers \Another\Plugin\Another_Wishlist\Models\Wishlist_Model::user_id()
@@ -123,5 +174,67 @@ class Wishlist_Test extends TestCase {
 		$this->assertEquals( 'test', $wishlist->description() );
 		$this->assertEquals( array( 1, 2, 3 ), $wishlist->object_ids() );
 		$this->assertEquals( 'public', $wishlist->visibility() );
+	}
+
+	/**
+	 * @return void
+	 *
+	 * @covers \Another\Plugin\Another_Wishlist\Models\Wishlist_Model::__construct()
+	 * @covers \Another\Plugin\Another_Wishlist\Models\Wishlist_Model::export()
+	 */
+	public function test_export(): void {
+		$wishlist = new Wishlist_Model(
+			array(
+				'user_id'     => 1,
+				'id'          => 2,
+				'guid'        => '123',
+				'title'       => 'test',
+				'description' => 'test',
+				'object_ids'  => array( 1, 2, 3 ),
+				'visibility'  => Wishlist_Model::VISIBILITY_PUBLIC,
+			)
+		);
+
+		$exported = $wishlist->export();
+		$this->assertEquals( $wishlist->user_id(), $exported['user_id'] );
+		$this->assertEquals( $wishlist->id(), $exported['id'] );
+		$this->assertEquals( $wishlist->guid(), $exported['guid'] );
+		$this->assertEquals( $wishlist->title(), $exported['title'] );
+		$this->assertEquals( $wishlist->description(), $exported['description'] );
+		$this->assertEquals( $wishlist->object_ids(), $exported['object_ids'] );
+		$this->assertEquals( $wishlist->visibility(), $exported['visibility'] );
+	}
+
+	/**
+	 * @return void
+	 *
+	 * @covers \Another\Plugin\Another_Wishlist\Models\Wishlist_Model::__construct()
+	 * @covers \Another\Plugin\Another_Wishlist\Models\Wishlist_Model::jsonSerialize()
+	 */
+	public function test_json(): void {
+		$wishlist = new Wishlist_Model(
+			array(
+				'user_id'     => 1,
+				'id'          => 2,
+				'guid'        => '123',
+				'title'       => 'test',
+				'description' => 'test',
+				'object_ids'  => array( 1, 2, 3 ),
+				'visibility'  => Wishlist_Model::VISIBILITY_PUBLIC,
+			)
+		);
+
+		$this->assertJsonStringEqualsJsonString(
+			'{
+				"user_id": 1,
+				"id": 2,
+				"guid": "123",
+				"title": "test",
+				"description": "test",
+				"object_ids": [1, 2, 3],
+				"visibility": "public"
+			}',
+			$wishlist->json()
+		);
 	}
 }

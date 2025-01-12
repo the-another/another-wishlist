@@ -3,7 +3,7 @@
  * Wishlist model
  */
 
-declare(strict_types = 1);
+declare( strict_types=1 );
 
 namespace Another\Plugin\Another_Wishlist\Models;
 
@@ -17,7 +17,7 @@ if ( ! \defined( 'WPINC' ) ) {
 class Wishlist_Model {
 
 	public const string VISIBILITY_PRIVATE = 'private';
-	public const string VISIBILITY_PUBLIC  = 'public';
+	public const string VISIBILITY_PUBLIC = 'public';
 
 	/**
 	 * Model attributes
@@ -139,6 +139,7 @@ class Wishlist_Model {
 	 */
 	public function get_id(): int {
 		trigger_deprecation( 'another-wishlist', '1.0.0', 'Wishlist_Model::get_id() is deprecated. Use Wishlist_Model::id() instead.' );
+
 		return $this->id();
 	}
 
@@ -158,6 +159,7 @@ class Wishlist_Model {
 	 */
 	public function get_user_id(): int {
 		trigger_deprecation( 'another-wishlist', '1.0.0', 'Wishlist_Model::get_user_id() is deprecated. Use Wishlist_Model::user_id() instead.' );
+
 		return $this->user_id();
 	}
 
@@ -177,6 +179,7 @@ class Wishlist_Model {
 	 */
 	public function get_guid(): string {
 		trigger_deprecation( 'another-wishlist', '1.0.0', 'Wishlist_Model::get_guid() is deprecated. Use Wishlist_Model::guid() instead.' );
+
 		return $this->guid();
 	}
 
@@ -196,6 +199,7 @@ class Wishlist_Model {
 	 */
 	public function get_title(): string {
 		trigger_deprecation( 'another-wishlist', '1.0.0', 'Wishlist_Model::get_title() is deprecated. Use Wishlist_Model::title() instead.' );
+
 		return $this->title();
 	}
 
@@ -215,6 +219,7 @@ class Wishlist_Model {
 	 */
 	public function get_description(): string {
 		trigger_deprecation( 'another-wishlist', '1.0.0', 'Wishlist_Model::get_description() is deprecated. Use Wishlist_Model::description() instead.' );
+
 		return $this->description();
 	}
 
@@ -225,6 +230,8 @@ class Wishlist_Model {
 	 */
 	public function set_object_ids( array $object_ids ): void {
 		$this->attributes['object_ids'] = $object_ids;
+
+		sort( $this->attributes['object_ids'] );
 	}
 
 	/**
@@ -234,7 +241,33 @@ class Wishlist_Model {
 	 */
 	public function get_object_ids(): array {
 		trigger_deprecation( 'another-wishlist', '1.0.0', 'Wishlist_Model::get_object_ids() is deprecated. Use Wishlist_Model::object_ids() instead.' );
+
 		return $this->object_ids();
+	}
+
+	/**
+	 * Add object ID
+	 *
+	 * @param int $object_id Object ID.
+	 */
+	public function add_object_id( int $object_id ): void {
+		$this->attributes['object_ids'][] = $object_id;
+
+		sort( $this->attributes['object_ids'] );
+	}
+
+	/**
+	 * Remove object ID
+	 *
+	 * @param int $object_id Object ID.
+	 */
+	public function remove_object_id( int $object_id ): void {
+		$index = array_search( $object_id, $this->attributes['object_ids'], true );
+		if ( false !== $index ) {
+			unset( $this->attributes['object_ids'][ $index ] );
+
+			sort( $this->attributes['object_ids'] );
+		}
 	}
 
 	/**
@@ -253,6 +286,25 @@ class Wishlist_Model {
 	 */
 	public function get_visibility(): string {
 		trigger_deprecation( 'another-wishlist', '1.0.0', 'Wishlist_Model::get_visibility() is deprecated. Use Wishlist_Model::visibility() instead.' );
+
 		return $this->visibility();
+	}
+
+	/**
+	 * Export model attributes
+	 *
+	 * @return array<string, mixed>
+	 */
+	public function export(): array {
+		return $this->attributes;
+	}
+
+	/**
+	 * Export model attributes as JSON
+	 *
+	 * @return string
+	 */
+	public function json(): string {
+		return wp_json_encode( $this->export() );
 	}
 }
