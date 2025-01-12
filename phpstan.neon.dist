@@ -41,8 +41,8 @@ parameters:
     - tests/phpunit/unit/tests/
     - uninstall.php
   excludePaths:
-    - includes/vendor/*
-    - includes/polyfills/*
+    - vendor/*
+    - vendor_prefixed/*
   scanDirectories:
     - third-party/
   scanFiles:

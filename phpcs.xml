@@ -6,7 +6,8 @@
     <type>error</type>
 <!--    <exclude name="Universal.Arrays.DisallowShortArraySyntax"/>-->
 <!--    <exclude name="Universal.Operators.DisallowShortTernary"/>-->
-<!--    <exclude name="WordPress.NamingConventions.ValidPostTypeSlug.NotStringLiteral"/>-->
+    <exclude name="WordPress.NamingConventions.ValidPostTypeSlug.NotStringLiteral"/>
+    <exclude name="WordPress.PHP.YodaConditions.NotYoda"/>
   </rule>
 
   <rule ref="PSR12.Files.FileHeader.IncorrectOrder">
@@ -19,6 +20,7 @@
     <!-- Documentation is organized with the use of namespaces. -->
     <exclude name="Squiz.Commenting.FileComment.MissingPackageTag"/>
     <exclude name="Squiz.Commenting.VariableComment.MissingVar"/>
+    <exclude name="Squiz.Commenting.VariableComment.Missing"/>
   </rule>
 
   <rule ref="WordPress-Extra">
@@ -60,6 +62,7 @@
         <element value="another-wishlist"/>
       </property>
     </properties>
+    <exclude name="WordPress.WP.I18n.NonSingularStringLiteralDomain"/>
   </rule>
 
   <rule ref="WordPress.NamingConventions.ValidVariableName">
@@ -92,14 +95,12 @@
   <config name="testVersion" value="7.4-"/>
   <rule ref="PHPCompatibilityWP"/>
 
-  <!-- The main plugin file should be parsable by PHP 5.6. -->
-  <rule ref="Generic.Arrays.DisallowLongArraySyntax.Found">
-    <exclude-pattern>web-stories.php</exclude-pattern>
-    <exclude-pattern>includes/compat/Web_Stories_Compatibility.php</exclude-pattern>
-  </rule>
-
   <rule ref="WordPress.NamingConventions.ValidFunctionName.MethodNameInvalid">
     <exclude-pattern>tests/phpunit/integration/includes/REST_Setup.php</exclude-pattern>
+  </rule>
+
+  <rule ref="WordPress.NamingConventions.ValidFunctionName.FunctionNameInvalid">
+    <exclude-pattern>another-wishlist.php</exclude-pattern>
   </rule>
 
   <rule ref="SlevomatCodingStandard.TypeHints.ReturnTypeHint">
@@ -134,6 +135,8 @@
     </properties>
 
     <exclude name="SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingTraversableTypeHintSpecification"/>
+    <exclude name="SlevomatCodingStandard.TypeHints.ParameterTypeHint.UselessAnnotation"/>
+    <exclude name="SlevomatCodingStandard.TypeHints.ReturnTypeHint.UselessAnnotation"/>
 
     <!-- The main plugin file should be parsable by PHP 5.6. -->
     <exclude-pattern>web-stories.php</exclude-pattern>
@@ -382,6 +385,7 @@
   <exclude-pattern>*/node_modules/*</exclude-pattern>
   <exclude-pattern>*/third-party/*</exclude-pattern>
   <exclude-pattern>*/vendor/*</exclude-pattern>
+  <exclude-pattern>*/vendor_prefixed/*</exclude-pattern>
   <exclude-pattern>assets/js/*.asset.php</exclude-pattern>
   <exclude-pattern>assets/js/*.chunks.php</exclude-pattern>
   <exclude-pattern>includes/polyfills/mbstring.php</exclude-pattern>

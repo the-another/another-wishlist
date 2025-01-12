@@ -1,6 +1,10 @@
 <?php
-declare(strict_types=1);
+/**
+ * Uninstall Another Wishlist
+ */
 
-if (!defined('WP_UNINSTALL_PLUGIN')) {
+declare(strict_types = 1);
+
+if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 	exit;
 }

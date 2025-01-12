@@ -23,7 +23,10 @@
     "dealerdirect/phpcodesniffer-composer-installer": "^0.7",
     "phpcompatibility/phpcompatibility-wp": "*",
     "yoast/wp-test-utils": "*",
-    "brain/monkey": "2.*"
+    "brain/monkey": "2.*",
+    "slevomat/coding-standard": "^8.0",
+    "phpmd/phpmd": "*",
+    "phpstan/phpstan": "*"
   },
   "autoload": {
     "psr-4": {

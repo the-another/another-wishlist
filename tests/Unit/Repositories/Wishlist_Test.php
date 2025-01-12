@@ -1,5 +1,6 @@
 <?php
-declare(strict_types=1);
+
+declare(strict_types = 1);
 
 namespace Another\Plugin\Another_Wishlist\Tests\Unit\Repositories;
 
@@ -13,91 +14,80 @@ use Brain\Monkey\Expectation\Exception\ExpectationArgsRequired;
 use Brain\Monkey\Functions;
 use Mockery;
 
-class Wishlist_Test extends TestCase
-{
-	public function set_up(): void
-	{
+class Wishlist_Test extends TestCase {
+
+	public function set_up(): void {
 		global $wpdb;
 		parent::set_up();
 
-		$wpdb = Mockery::mock('wpdb');
-		$wpdb->prefix = 'wp_';
-		$wpdb->posts = $wpdb->prefix . 'posts';
+		$wpdb           = Mockery::mock( 'wpdb' );
+		$wpdb->prefix   = 'wp_';
+		$wpdb->posts    = $wpdb->prefix . 'posts';
 		$wpdb->postmeta = $wpdb->prefix . 'postmeta';
 
-		Functions\when('wp_generate_uuid4')->justReturn('4d59e1ac-0e1b-4d20-94b6-2dbfa8159850');
+		Functions\when( 'wp_generate_uuid4' )->justReturn( '4d59e1ac-0e1b-4d20-94b6-2dbfa8159850' );
 	}
 
 	/**
-	 * @return void
-	 *
 	 * @covers \Another\Plugin\Another_Wishlist\Repositories\Wishlist_Repository::next_order_increment()
 	 */
-	public function test_next_order_first()
-	{
+	public function test_next_order_first(): void {
 		global $wpdb;
-		$plugin = new Plugin();
-		$repo = new Wishlist_Repository($plugin);
+		$plugin  = new Plugin();
+		$repo    = new Wishlist_Repository( $plugin );
 		$user_id = 1;
 
-		$wpdb->shouldReceive('prepare')
+		$wpdb->shouldReceive( 'prepare' )
 			->with(
-				Mockery::type('string'),
+				Mockery::type( 'string' ),
 				$user_id,
 				Wishlist_Post_Type::POST_TYPE_NAME
 			)
 			->once()
-			->andReturn("SELECT MAX(post_order) FROM {$wpdb->posts} WHERE post_author = 1 AND post_type = 'wishlist'");
+			->andReturn( "SELECT MAX(post_order) FROM {$wpdb->posts} WHERE post_author = 1 AND post_type = 'wishlist'" );
 
-		$wpdb->shouldReceive('get_var')
+		$wpdb->shouldReceive( 'get_var' )
 			->with(
 				Mockery::on(
-					function ($sql) use ($wpdb) {
-						return $sql === "SELECT MAX(post_order) FROM {$wpdb->posts} WHERE post_author = 1 AND post_type = 'wishlist'";
-					}
+					static fn( $sql ) => "SELECT MAX(post_order) FROM {$wpdb->posts} WHERE post_author = 1 AND post_type = 'wishlist'" === $sql
 				)
 			)
 			->once()
-			->andReturn(null);
+			->andReturn( null );
 
-		$next_order = $repo->next_order_increment($user_id);
-		$this->assertEquals(0, $next_order);
+		$next_order = $repo->next_order_increment( $user_id );
+		$this->assertEquals( 0, $next_order );
 	}
 
 	/**
-	 * @return void
-	 *
 	 * @covers \Another\Plugin\Another_Wishlist\Repositories\Wishlist_Repository::next_order_increment()
 	 */
-	public function test_next_order_up()
-	{
+	public function test_next_order_up(): void {
 		global $wpdb;
-		$plugin = new Plugin();
-		$repo = new Wishlist_Repository($plugin);
+		$plugin  = new Plugin();
+		$repo    = new Wishlist_Repository( $plugin );
 		$user_id = 1;
 
-		$wpdb->shouldReceive('prepare')
+		$wpdb->shouldReceive( 'prepare' )
 			->with(
-				Mockery::type('string'),
+				Mockery::type( 'string' ),
 				$user_id,
 				Wishlist_Post_Type::POST_TYPE_NAME
 			)
 			->once()
-			->andReturn("SELECT MAX(post_order) FROM {$wpdb->posts} WHERE post_author = 1 AND post_type = 'wishlist'");
+			->andReturn( "SELECT MAX(post_order) FROM {$wpdb->posts} WHERE post_author = 1 AND post_type = 'wishlist'" );
 
-		$wpdb->shouldReceive('get_var')
+		$wpdb->shouldReceive( 'get_var' )
 			->with(
 				Mockery::on(
-					function ($sql) use ($wpdb) {
-						return $sql === "SELECT MAX(post_order) FROM {$wpdb->posts} WHERE post_author = 1 AND post_type = 'wishlist'";
-					}
+					static fn( $sql ) => "SELECT MAX(post_order) FROM {$wpdb->posts} WHERE post_author = 1 AND post_type = 'wishlist'" === $sql
 				)
 			)
 			->once()
-			->andReturn(3);
+			->andReturn( 3 );
 
-		$next_order = $repo->next_order_increment($user_id);
-		$this->assertEquals(4, $next_order);
+		$next_order = $repo->next_order_increment( $user_id );
+		$this->assertEquals( 4, $next_order );
 	}
 
 	/**
@@ -106,37 +96,38 @@ class Wishlist_Test extends TestCase
 	 *
 	 * @covers \Another\Plugin\Another_Wishlist\Repositories\Wishlist_Repository::create_wishlist()
 	 */
-	public function test_create_wishlist()
-	{
+	public function test_create_wishlist(): void {
 		global $wpdb;
 
 		$plugin = new Plugin();
-		$repo = new Wishlist_Repository($plugin);
+		$repo   = new Wishlist_Repository( $plugin );
 
-		$wishlist = new Wishlist_Model(array(
-			'title' => 'Test Wishlist',
-			'user_id' => 1,
-			'object_ids' => [1, 2, 3],
-		));
+		$wishlist = new Wishlist_Model(
+			array(
+				'title'      => 'Test Wishlist',
+				'user_id'    => 1,
+				'object_ids' => array( 1, 2, 3 ),
+			)
+		);
 
-		Functions\expect('wp_insert_post')
+		Functions\expect( 'wp_insert_post' )
 			->once()
 			->with(
-				Mockery::on(function ($args) use ($wishlist) {
-					return $args['post_type'] === Wishlist_Post_Type::POST_TYPE_NAME
+				Mockery::on(
+					static fn( $args ) => $args['post_type'] === Wishlist_Post_Type::POST_TYPE_NAME
 						&& $args['post_title'] === $wishlist->title()
 						&& $args['post_name'] === '4d59e1ac-0e1b-4d20-94b6-2dbfa8159850'
 						&& $args['post_author'] === $wishlist->user_id()
-						&& $args['post_status'] === $wishlist->visibility();
-				})
-			)->andReturn(1);
-		Functions\expect('add_post_meta')
+						&& $args['post_status'] === $wishlist->visibility()
+				)
+			)->andReturn( 1 );
+		Functions\expect( 'add_post_meta' )
 			->once()
-			->with(1, Wishlist_Repository::OBJECT_IDS_META_KEY, json_encode($wishlist->object_ids()), true)
-			->andReturn(1);
+			->with( 1, Wishlist_Repository::OBJECT_IDS_META_KEY, json_encode( $wishlist->object_ids() ), true )
+			->andReturn( 1 );
 
-		$wishlist_id = $repo->create_wishlist($wishlist);
-		$this->assertEquals(1, $wishlist_id);
+		$wishlist_id = $repo->create_wishlist( $wishlist );
+		$this->assertEquals( 1, $wishlist_id );
 	}
 
 	/**
@@ -145,40 +136,41 @@ class Wishlist_Test extends TestCase
 	 *
 	 * @covers \Another\Plugin\Another_Wishlist\Repositories\Wishlist_Repository::create_wishlist()
 	 */
-	public function test_create_wishlist_failure()
-	{
+	public function test_create_wishlist_failure(): void {
 		global $wpdb;
 
-		$error = Mockery::mock('alias:WP_Error');
-		$error->shouldReceive('get_error_message')->andReturn('Failed to create wishlist');
+		$error = Mockery::mock( 'alias:WP_Error' );
+		$error->shouldReceive( 'get_error_message' )->andReturn( 'Failed to create wishlist' );
 
-		Functions\expect('is_wp_error')->andReturn(true);
+		Functions\expect( 'is_wp_error' )->andReturn( true );
 
 		$plugin = new Plugin();
-		$repo = new Wishlist_Repository($plugin);
+		$repo   = new Wishlist_Repository( $plugin );
 
-		$wishlist = new Wishlist_Model(array(
-			'title' => 'Test Wishlist',
-			'user_id' => 1,
-			'object_ids' => [1, 2, 3],
-		));
+		$wishlist = new Wishlist_Model(
+			array(
+				'title'      => 'Test Wishlist',
+				'user_id'    => 1,
+				'object_ids' => array( 1, 2, 3 ),
+			)
+		);
 
-		Functions\expect('wp_insert_post')
+		Functions\expect( 'wp_insert_post' )
 			->once()
 			->with(
-				Mockery::on(function ($args) use ($wishlist) {
-					return $args['post_type'] === Wishlist_Post_Type::POST_TYPE_NAME
+				Mockery::on(
+					static fn( $args ) => Wishlist_Post_Type::POST_TYPE_NAME === $args['post_type']
 						&& $args['post_title'] === $wishlist->title()
-						&& $args['post_name'] === '4d59e1ac-0e1b-4d20-94b6-2dbfa8159850'
+						&& '4d59e1ac-0e1b-4d20-94b6-2dbfa8159850' === $args['post_name']
 						&& $args['post_author'] === $wishlist->user_id()
-						&& $args['post_status'] === $wishlist->visibility();
-				})
-			)->andReturn($error);
+						&& $args['post_status'] === $wishlist->visibility()
+				)
+			)->andReturn( $error );
 
-		$this->expectException(Repository_Exception::class);
-		$this->expectExceptionMessage('Failed to create wishlist');
+		$this->expectException( Repository_Exception::class );
+		$this->expectExceptionMessage( 'Failed to create wishlist' );
 
-		$repo->create_wishlist($wishlist);
+		$repo->create_wishlist( $wishlist );
 	}
 
 	/**
@@ -187,40 +179,41 @@ class Wishlist_Test extends TestCase
 	 *
 	 * @covers \Another\Plugin\Another_Wishlist\Repositories\Wishlist_Repository::create_wishlist()
 	 */
-	public function test_create_wishlist_failure_meta()
-	{
+	public function test_create_wishlist_failure_meta(): void {
 		global $wpdb;
 
 		$plugin = new Plugin();
-		$repo = new Wishlist_Repository($plugin);
+		$repo   = new Wishlist_Repository( $plugin );
 
-		$wishlist = new Wishlist_Model(array(
-			'title' => 'Test Wishlist',
-			'user_id' => 1,
-			'object_ids' => [1, 2, 3],
-		));
+		$wishlist = new Wishlist_Model(
+			array(
+				'title'      => 'Test Wishlist',
+				'user_id'    => 1,
+				'object_ids' => array( 1, 2, 3 ),
+			)
+		);
 
-		Functions\expect('wp_insert_post')
+		Functions\expect( 'wp_insert_post' )
 			->once()
 			->with(
-				Mockery::on(function ($args) use ($wishlist) {
-					return $args['post_type'] === Wishlist_Post_Type::POST_TYPE_NAME
+				Mockery::on(
+					static fn( $args ) => Wishlist_Post_Type::POST_TYPE_NAME === $args['post_type']
 						&& $args['post_title'] === $wishlist->title()
-						&& $args['post_name'] === '4d59e1ac-0e1b-4d20-94b6-2dbfa8159850'
+						&& '4d59e1ac-0e1b-4d20-94b6-2dbfa8159850' === $args['post_name']
 						&& $args['post_author'] === $wishlist->user_id()
-						&& $args['post_status'] === $wishlist->visibility();
-				})
-			)->andReturn(1);
+						&& $args['post_status'] === $wishlist->visibility()
+				)
+			)->andReturn( 1 );
 
-		Functions\expect('add_post_meta')
+		Functions\expect( 'add_post_meta' )
 			->once()
-			->with(1, Wishlist_Repository::OBJECT_IDS_META_KEY, json_encode($wishlist->object_ids()), true)
-			->andReturn(false);
+			->with( 1, Wishlist_Repository::OBJECT_IDS_META_KEY, json_encode( $wishlist->object_ids() ), true )
+			->andReturn( false );
 
-		$this->expectException(Repository_Exception::class);
-		$this->expectExceptionMessage('Failed to save object ids');
+		$this->expectException( Repository_Exception::class );
+		$this->expectExceptionMessage( 'Failed to save object ids' );
 
-		$repo->create_wishlist($wishlist);
+		$repo->create_wishlist( $wishlist );
 	}
 
 	/**
@@ -229,176 +222,165 @@ class Wishlist_Test extends TestCase
 	 *
 	 * @covers \Another\Plugin\Another_Wishlist\Repositories\Wishlist_Repository::find_wishlist()
 	 */
-	public function test_find_wishlist_by_numeric_id()
-	{
+	public function test_find_wishlist_by_numeric_id(): void {
 		$plugin = new Plugin();
-		$repo = new Wishlist_Repository($plugin);
+		$repo   = new Wishlist_Repository( $plugin );
 
-		$wishlist_post = Mockery::mock('WP_Post');
-		$wishlist_post->ID = 1;
-		$wishlist_post->post_author = 1;
-		$wishlist_post->post_title = 'Test Wishlist';
-		$wishlist_post->post_name = '4d59e1ac-0e1b-4d20-94b6-2dbfa8159850';
-		$wishlist_post->post_status = Wishlist_Model::VISIBILITY_PRIVATE;
+		$wishlist_post               = Mockery::mock( 'WP_Post' );
+		$wishlist_post->ID           = 1;
+		$wishlist_post->post_author  = 1;
+		$wishlist_post->post_title   = 'Test Wishlist';
+		$wishlist_post->post_name    = '4d59e1ac-0e1b-4d20-94b6-2dbfa8159850';
+		$wishlist_post->post_status  = Wishlist_Model::VISIBILITY_PRIVATE;
 		$wishlist_post->post_content = '';
 
 
-		Functions\expect('get_post')->with(1)->andReturn($wishlist_post);
+		Functions\expect( 'get_post' )->with( 1 )->andReturn( $wishlist_post );
 
-		Functions\expect('get_post_meta')
-			->with(1, Wishlist_Repository::OBJECT_IDS_META_KEY, true)
+		Functions\expect( 'get_post_meta' )
+			->with( 1, Wishlist_Repository::OBJECT_IDS_META_KEY, true )
 			->once()
-			->andReturn(json_encode([1, 2, 3]));
+			->andReturn( json_encode( array( 1, 2, 3 ) ) );
 
-		Functions\expect('wp_is_uuid')->andReturn(false);
+		Functions\expect( 'wp_is_uuid' )->andReturn( false );
 
-		$wishlist = $repo->find_wishlist(1);
-		$this->assertEquals(1, $wishlist->id());
-		$this->assertEquals('Test Wishlist', $wishlist->title());
-		$this->assertEquals('4d59e1ac-0e1b-4d20-94b6-2dbfa8159850', $wishlist->guid());
-		$this->assertEquals(1, $wishlist->user_id());
-		$this->assertEquals(Wishlist_Model::VISIBILITY_PRIVATE, $wishlist->visibility());
-		$this->assertEquals([1, 2, 3], $wishlist->object_ids());
+		$wishlist = $repo->find_wishlist( 1 );
+		$this->assertEquals( 1, $wishlist->id() );
+		$this->assertEquals( 'Test Wishlist', $wishlist->title() );
+		$this->assertEquals( '4d59e1ac-0e1b-4d20-94b6-2dbfa8159850', $wishlist->guid() );
+		$this->assertEquals( 1, $wishlist->user_id() );
+		$this->assertEquals( Wishlist_Model::VISIBILITY_PRIVATE, $wishlist->visibility() );
+		$this->assertEquals( array( 1, 2, 3 ), $wishlist->object_ids() );
 	}
 
 	/**
-	 * @return void
 	 * @throws ExpectationArgsRequired
 	 * @throws Repository_Exception
 	 *
 	 * @covers \Another\Plugin\Another_Wishlist\Repositories\Wishlist_Repository::find_wishlist()
 	 */
-	public function test_find_wishlist_by_uuid()
-	{
+	public function test_find_wishlist_by_uuid(): void {
 		$plugin = new Plugin();
-		$repo = new Wishlist_Repository($plugin);
+		$repo   = new Wishlist_Repository( $plugin );
 
-		$wishlist_post = Mockery::mock('WP_Post');
-		$wishlist_post->ID = 1;
-		$wishlist_post->post_author = 1;
-		$wishlist_post->post_title = 'Test Wishlist';
-		$wishlist_post->post_name = '4d59e1ac-0e1b-4d20-94b6-2dbfa8159850';
-		$wishlist_post->post_status = Wishlist_Model::VISIBILITY_PRIVATE;
+		$wishlist_post               = Mockery::mock( 'WP_Post' );
+		$wishlist_post->ID           = 1;
+		$wishlist_post->post_author  = 1;
+		$wishlist_post->post_title   = 'Test Wishlist';
+		$wishlist_post->post_name    = '4d59e1ac-0e1b-4d20-94b6-2dbfa8159850';
+		$wishlist_post->post_status  = Wishlist_Model::VISIBILITY_PRIVATE;
 		$wishlist_post->post_content = '';
 
-		Functions\expect('get_page_by_path')
+		Functions\expect( 'get_page_by_path' )
 			->with(
 				'4d59e1ac-0e1b-4d20-94b6-2dbfa8159850',
 				OBJECT,
 				Wishlist_Post_Type::POST_TYPE_NAME
 			)
-			->andReturn($wishlist_post);
+			->andReturn( $wishlist_post );
 
-		Functions\expect('get_post_meta')
-			->with(1, Wishlist_Repository::OBJECT_IDS_META_KEY, true)
+		Functions\expect( 'get_post_meta' )
+			->with( 1, Wishlist_Repository::OBJECT_IDS_META_KEY, true )
 			->once()
-			->andReturn(json_encode([1, 2, 3]));
+			->andReturn( json_encode( array( 1, 2, 3 ) ) );
 
-		Functions\expect('wp_is_uuid')->andReturn(true);
+		Functions\expect( 'wp_is_uuid' )->andReturn( true );
 
-		$wishlist = $repo->find_wishlist('4d59e1ac-0e1b-4d20-94b6-2dbfa8159850');
-		$this->assertEquals(1, $wishlist->id());
-		$this->assertEquals('Test Wishlist', $wishlist->title());
-		$this->assertEquals('4d59e1ac-0e1b-4d20-94b6-2dbfa8159850', $wishlist->guid());
-		$this->assertEquals(1, $wishlist->user_id());
-		$this->assertEquals(Wishlist_Model::VISIBILITY_PRIVATE, $wishlist->visibility());
-		$this->assertEquals([1, 2, 3], $wishlist->object_ids());
+		$wishlist = $repo->find_wishlist( '4d59e1ac-0e1b-4d20-94b6-2dbfa8159850' );
+		$this->assertEquals( 1, $wishlist->id() );
+		$this->assertEquals( 'Test Wishlist', $wishlist->title() );
+		$this->assertEquals( '4d59e1ac-0e1b-4d20-94b6-2dbfa8159850', $wishlist->guid() );
+		$this->assertEquals( 1, $wishlist->user_id() );
+		$this->assertEquals( Wishlist_Model::VISIBILITY_PRIVATE, $wishlist->visibility() );
+		$this->assertEquals( array( 1, 2, 3 ), $wishlist->object_ids() );
 	}
 
 	/**
-	 * @return void
 	 * @throws Repository_Exception
 	 *
 	 * @covers \Another\Plugin\Another_Wishlist\Repositories\Wishlist_Repository::find_wishlist()
 	 */
-	public function test_find_wishlist_by_numeric_id_failure()
-	{
+	public function test_find_wishlist_by_numeric_id_failure(): void {
 		$plugin = new Plugin();
-		$repo = new Wishlist_Repository($plugin);
+		$repo   = new Wishlist_Repository( $plugin );
 
-		Functions\expect('get_post')->andReturn(null);
-		Functions\expect('wp_is_uuid')->andReturn(false);
+		Functions\expect( 'get_post' )->andReturn( null );
+		Functions\expect( 'wp_is_uuid' )->andReturn( false );
 
-		$this->expectException(Repository_Exception::class);
-		$this->expectExceptionMessage('Wishlist not found');
+		$this->expectException( Repository_Exception::class );
+		$this->expectExceptionMessage( 'Wishlist not found' );
 
-		$repo->find_wishlist(1);
+		$repo->find_wishlist( 1 );
 	}
 
 	/**
-	 * @return void
 	 * @throws Repository_Exception
 	 *
 	 * @covers \Another\Plugin\Another_Wishlist\Repositories\Wishlist_Repository::find_wishlist()
 	 */
-	public function test_find_wishlist_by_uuid_failure()
-	{
+	public function test_find_wishlist_by_uuid_failure(): void {
 		$plugin = new Plugin();
-		$repo = new Wishlist_Repository($plugin);
+		$repo   = new Wishlist_Repository( $plugin );
 
-		Functions\expect('get_page_by_path')->andReturn(null);
-		Functions\expect('wp_is_uuid')->andReturn(true);
+		Functions\expect( 'get_page_by_path' )->andReturn( null );
+		Functions\expect( 'wp_is_uuid' )->andReturn( true );
 
-		$this->expectException(Repository_Exception::class);
-		$this->expectExceptionMessage('Wishlist not found');
+		$this->expectException( Repository_Exception::class );
+		$this->expectExceptionMessage( 'Wishlist not found' );
 
-		$repo->find_wishlist('4d59e1ac-0e1b-4d20-94b6-2dbfa8159850');
+		$repo->find_wishlist( '4d59e1ac-0e1b-4d20-94b6-2dbfa8159850' );
 	}
 
 	/**
-	 * @return void
 	 * @throws Repository_Exception
 	 *
 	 * @covers \Another\Plugin\Another_Wishlist\Repositories\Wishlist_Repository::find_wishlist()
 	 */
-	public function test_find_wishlist_invalid_id()
-	{
+	public function test_find_wishlist_invalid_id(): void {
 		$plugin = new Plugin();
-		$repo = new Wishlist_Repository($plugin);
+		$repo   = new Wishlist_Repository( $plugin );
 
-		Functions\expect('wp_is_uuid')->andReturn(false);
+		Functions\expect( 'wp_is_uuid' )->andReturn( false );
 
-		$this->expectException(Repository_Exception::class);
-		$this->expectExceptionMessage('Invalid wishlist id');
+		$this->expectException( Repository_Exception::class );
+		$this->expectExceptionMessage( 'Invalid wishlist id' );
 
 		// this can be anything but numeric or uuid, it should fail
-		$repo->find_wishlist('invalid');
+		$repo->find_wishlist( 'invalid' );
 	}
 
 	/**
-	 * @return void
-	 *
 	 * @throws ExpectationArgsRequired
 	 * @throws Repository_Exception
 	 * @covers \Another\Plugin\Another_Wishlist\Repositories\Wishlist_Repository::find_wishlist()
 	 */
-	public function test_find_wishlist_empty_objects() {
+	public function test_find_wishlist_empty_objects(): void {
 		$plugin = new Plugin();
-		$repo = new Wishlist_Repository($plugin);
+		$repo   = new Wishlist_Repository( $plugin );
 
-		$wishlist_post = Mockery::mock('WP_Post');
-		$wishlist_post->ID = 1;
-		$wishlist_post->post_author = 1;
-		$wishlist_post->post_title = 'Test Wishlist';
-		$wishlist_post->post_name = '4d59e1ac-0e1b-4d20-94b6-2dbfa8159850';
-		$wishlist_post->post_status = Wishlist_Model::VISIBILITY_PRIVATE;
+		$wishlist_post               = Mockery::mock( 'WP_Post' );
+		$wishlist_post->ID           = 1;
+		$wishlist_post->post_author  = 1;
+		$wishlist_post->post_title   = 'Test Wishlist';
+		$wishlist_post->post_name    = '4d59e1ac-0e1b-4d20-94b6-2dbfa8159850';
+		$wishlist_post->post_status  = Wishlist_Model::VISIBILITY_PRIVATE;
 		$wishlist_post->post_content = '';
 
-		Functions\expect('get_post')->with(1)->andReturn($wishlist_post);
+		Functions\expect( 'get_post' )->with( 1 )->andReturn( $wishlist_post );
 
-		Functions\expect('get_post_meta')
-			->with(1, Wishlist_Repository::OBJECT_IDS_META_KEY, true)
+		Functions\expect( 'get_post_meta' )
+			->with( 1, Wishlist_Repository::OBJECT_IDS_META_KEY, true )
 			->once()
-			->andReturn('');
+			->andReturn( '' );
 
-		Functions\expect('wp_is_uuid')->andReturn(false);
+		Functions\expect( 'wp_is_uuid' )->andReturn( false );
 
-		$wishlist = $repo->find_wishlist(1);
-		$this->assertEquals(1, $wishlist->id());
-		$this->assertEquals('Test Wishlist', $wishlist->title());
-		$this->assertEquals('4d59e1ac-0e1b-4d20-94b6-2dbfa8159850', $wishlist->guid());
-		$this->assertEquals(1, $wishlist->user_id());
-		$this->assertEquals(Wishlist_Model::VISIBILITY_PRIVATE, $wishlist->visibility());
-		$this->assertEquals(array(), $wishlist->object_ids());
+		$wishlist = $repo->find_wishlist( 1 );
+		$this->assertEquals( 1, $wishlist->id() );
+		$this->assertEquals( 'Test Wishlist', $wishlist->title() );
+		$this->assertEquals( '4d59e1ac-0e1b-4d20-94b6-2dbfa8159850', $wishlist->guid() );
+		$this->assertEquals( 1, $wishlist->user_id() );
+		$this->assertEquals( Wishlist_Model::VISIBILITY_PRIVATE, $wishlist->visibility() );
+		$this->assertEquals( array(), $wishlist->object_ids() );
 	}
 }

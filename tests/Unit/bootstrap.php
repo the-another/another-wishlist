@@ -1,5 +1,6 @@
 <?php
-declare(strict_types=1);
+
+declare(strict_types = 1);
 
 namespace Another\Plugin\Another_Wishlist\Tests\Unit;
 
@@ -10,19 +11,19 @@ require_once __DIR__ . '/../../vendor/autoload.php';
 
 $GLOBALS['wp_version'] = '1.0';
 
-if (!defined('WPINC')) {
-	define('WPINC', 'wp-includes');
+if ( ! \defined( 'WPINC' ) ) {
+	\define( 'WPINC', 'wp-includes' );
 }
 
-if (!defined('OBJECT')) {
-	define('OBJECT', 'OBJECT');
+if ( ! \defined( 'OBJECT' ) ) {
+	\define( 'OBJECT', 'OBJECT' );
 }
 
 /* ********************* LOAD TEST DOUBLES FOR WP NATIVE CLASSES ********************* */
 
 // Create the necessary test doubles for WP native classes on which properties are being set (PHP 8.2 compat).
 BrainMonkey\makeDoublesForUnavailableClasses(
-	[
+	array(
 		'WP',
 		'WP_Post',
 		'WP_Query',
@@ -31,5 +32,5 @@ BrainMonkey\makeDoublesForUnavailableClasses(
 		'WP_Term',
 		'WP_User',
 		'wpdb',
-	]
+	)
 );
