@@ -4,9 +4,6 @@ declare(strict_types = 1);
 
 namespace Another\Plugin\Another_Wishlist\Tests\Unit;
 
-use Yoast\WPTestUtils\BrainMonkey;
-
-require_once __DIR__ . '/../../vendor/yoast/wp-test-utils/src/BrainMonkey/bootstrap.php';
 require_once __DIR__ . '/../../vendor/autoload.php';
 
 $GLOBALS['wp_version'] = '1.0';
@@ -19,18 +16,28 @@ if ( ! \defined( 'OBJECT' ) ) {
 	\define( 'OBJECT', 'OBJECT' );
 }
 
-/* ********************* LOAD TEST DOUBLES FOR WP NATIVE CLASSES ********************* */
+/*
+ * Make a number of commonly used WP constants available.
+ */
+\define( 'ABSPATH', true );
 
-// Create the necessary test doubles for WP native classes on which properties are being set (PHP 8.2 compat).
-BrainMonkey\makeDoublesForUnavailableClasses(
-	array(
-		'WP',
-		'WP_Post',
-		'WP_Query',
-		'WP_Rewrite',
-		'WP_Roles',
-		'WP_Term',
-		'WP_User',
-		'wpdb',
-	)
-);
+\define( 'MINUTE_IN_SECONDS', 60 );
+\define( 'HOUR_IN_SECONDS', 3600 );
+\define( 'DAY_IN_SECONDS', 86400 );
+\define( 'WEEK_IN_SECONDS', 604_800 );
+\define( 'MONTH_IN_SECONDS', 2_592_000 );
+\define( 'YEAR_IN_SECONDS', 31_536_000 );
+
+\define( 'DB_HOST', 'nowhere' );
+\define( 'DB_NAME', 'none' );
+\define( 'DB_USER', 'nobody' );
+\define( 'DB_PASSWORD', 'nothing' );
+
+/*
+ * Clear the opcache if it exists.
+ *
+ * Wrapped in a `function exists()` as the extension may not be enabled.
+ */
+if ( \function_exists( 'opcache_reset' ) ) {
+	\opcache_reset();
+}

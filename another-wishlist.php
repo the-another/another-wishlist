@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Another Woo Wishlist
  * Plugin URI: https://github.com/the-another/another-wishlist
- * Description: Another wishlist plugin for WooCommerce.
+ * Description: Another wishlist plugin.
  * Author: Nemanja Cimbaljevic <wpcimba@pm.me>
  * Version: 1.0.0
  * Author URI: http://cimba.blog/
@@ -21,15 +21,19 @@ require_once plugin_dir_path( __FILE__ ) . 'vendor_prefixed/scoper-autoload.php'
 require_once plugin_dir_path( __FILE__ ) . 'vendor/autoload.php';
 
 ( static function (): void {
-	$plugin = Another_Wishlist();
 	add_action(
 		'plugins_loaded',
-		static function () use ( $plugin ): void {
-			if ( ! function_exists( 'WC' ) ) {
-				return;
-			}
-
-			$plugin->init();
+		static function (): void {
+			Another_Wishlist(
+				array(
+					'version'     => '1.0.0',
+					'text_domain' => 'another-wishlist',
+					'plugin_name' => 'Another Wishlist',
+					'plugin_file' => __FILE__,
+					'plugin_path' => plugin_dir_path( __FILE__ ),
+					'plugin_url'  => plugin_dir_url( __FILE__ ),
+				)
+			)->init();
 		}
 	);
 } )();
@@ -37,8 +41,10 @@ require_once plugin_dir_path( __FILE__ ) . 'vendor/autoload.php';
 /**
  * Main plugin function.
  *
+ * @param array $params Plugin constructor parameters.
+ *
  * @return Plugin
  */
-function Another_Wishlist(): Plugin {
-	return Plugin::instance();
+function Another_Wishlist( array $params = array() ): Plugin {
+	return Plugin::instance( $params );
 }

@@ -3,7 +3,7 @@
  * Wishlist model
  */
 
-declare( strict_types=1 );
+declare( strict_types = 1 );
 
 namespace Another\Plugin\Another_Wishlist\Models;
 
@@ -17,7 +17,7 @@ if ( ! \defined( 'WPINC' ) ) {
 class Wishlist_Model {
 
 	public const string VISIBILITY_PRIVATE = 'private';
-	public const string VISIBILITY_PUBLIC = 'public';
+	public const string VISIBILITY_PUBLIC  = 'public';
 
 	/**
 	 * Model attributes

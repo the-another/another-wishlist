@@ -7,6 +7,7 @@ declare(strict_types = 1);
 
 namespace Another\Plugin\Another_Wishlist\Post_Types;
 
+use Another\Plugin\Another_Wishlist\Contracts\WillRegister;
 use Another\Plugin\Another_Wishlist\Plugin;
 use WP_Error;
 use WP_Post_Type;
@@ -19,7 +20,7 @@ if ( ! \defined( 'WPINC' ) ) {
 /**
  * Class Wishlist_Post_Type
  */
-class Wishlist_Post_Type {
+class Wishlist_Post_Type implements WillRegister {
 
 	public const string POST_TYPE_NAME = 'wishlist';
 
@@ -39,12 +40,10 @@ class Wishlist_Post_Type {
 	}
 
 	/**
-	 * Register post type
-	 *
-	 * @return void
+	 * Hook method
 	 */
-	public function register_post_type(): void {
-		$response = $this->register();
+	public function register(): void {
+		$response = $this->register_post_type();
 		if ( is_wp_error( $response ) ) {
 			// TODO: implement logger to plugin.
 
@@ -70,7 +69,7 @@ class Wishlist_Post_Type {
 	 *
 	 * @return WP_Error|WP_Post_Type
 	 */
-	public function register(): WP_Error|WP_Post_Type {
+	public function register_post_type(): WP_Error|WP_Post_Type {
 		return register_post_type(
 			self::POST_TYPE_NAME,
 			array(

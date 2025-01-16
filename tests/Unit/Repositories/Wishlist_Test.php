@@ -29,11 +29,11 @@ class Wishlist_Test extends TestCase {
 	}
 
 	/**
-	 * @covers \Another\Plugin\Another_Wishlist\Repositories\Wishlist_Repository::next_order_increment()
+	 * @return void
 	 */
 	public function test_next_order_first(): void {
 		global $wpdb;
-		$plugin  = new Plugin();
+		$plugin  = Plugin::instance();
 		$repo    = new Wishlist_Repository( $plugin );
 		$user_id = 1;
 
@@ -60,11 +60,11 @@ class Wishlist_Test extends TestCase {
 	}
 
 	/**
-	 * @covers \Another\Plugin\Another_Wishlist\Repositories\Wishlist_Repository::next_order_increment()
+	 * @return void
 	 */
 	public function test_next_order_up(): void {
 		global $wpdb;
-		$plugin  = new Plugin();
+		$plugin  = Plugin::instance();
 		$repo    = new Wishlist_Repository( $plugin );
 		$user_id = 1;
 
@@ -91,15 +91,15 @@ class Wishlist_Test extends TestCase {
 	}
 
 	/**
-	 * @throws ExpectationArgsRequired
+	 * @return void
 	 * @throws Repository_Exception
 	 *
-	 * @covers \Another\Plugin\Another_Wishlist\Repositories\Wishlist_Repository::create_wishlist()
+	 * @throws ExpectationArgsRequired
 	 */
 	public function test_create_wishlist(): void {
 		global $wpdb;
 
-		$plugin = new Plugin();
+		$plugin = Plugin::instance();
 		$repo   = new Wishlist_Repository( $plugin );
 
 		$wishlist = new Wishlist_Model(
@@ -143,10 +143,10 @@ class Wishlist_Test extends TestCase {
 	}
 
 	/**
-	 * @throws ExpectationArgsRequired
+	 * @return void
 	 * @throws Repository_Exception
 	 *
-	 * @covers \Another\Plugin\Another_Wishlist\Repositories\Wishlist_Repository::create_wishlist()
+	 * @throws ExpectationArgsRequired
 	 */
 	public function test_create_wishlist_failure(): void {
 		global $wpdb;
@@ -156,7 +156,7 @@ class Wishlist_Test extends TestCase {
 
 		Functions\expect( 'is_wp_error' )->andReturn( true );
 
-		$plugin = new Plugin();
+		$plugin = Plugin::instance();
 		$repo   = new Wishlist_Repository( $plugin );
 
 		$wishlist = new Wishlist_Model(
@@ -186,15 +186,15 @@ class Wishlist_Test extends TestCase {
 	}
 
 	/**
-	 * @throws ExpectationArgsRequired
+	 * @return void
 	 * @throws Repository_Exception
 	 *
-	 * @covers \Another\Plugin\Another_Wishlist\Repositories\Wishlist_Repository::create_wishlist()
+	 * @throws ExpectationArgsRequired
 	 */
 	public function test_create_wishlist_failure_meta(): void {
 		global $wpdb;
 
-		$plugin = new Plugin();
+		$plugin = Plugin::instance();
 		$repo   = new Wishlist_Repository( $plugin );
 
 		$wishlist = new Wishlist_Model(
@@ -229,13 +229,13 @@ class Wishlist_Test extends TestCase {
 	}
 
 	/**
-	 * @throws Repository_Exception
+	 * @return void
 	 * @throws ExpectationArgsRequired
 	 *
-	 * @covers \Another\Plugin\Another_Wishlist\Repositories\Wishlist_Repository::find_wishlist()
+	 * @throws Repository_Exception
 	 */
 	public function test_find_wishlist_by_numeric_id(): void {
-		$plugin = new Plugin();
+		$plugin = Plugin::instance();
 		$repo   = new Wishlist_Repository( $plugin );
 
 		$wishlist_post               = Mockery::mock( 'WP_Post' );
@@ -266,13 +266,13 @@ class Wishlist_Test extends TestCase {
 	}
 
 	/**
-	 * @throws ExpectationArgsRequired
+	 * @return void
 	 * @throws Repository_Exception
 	 *
-	 * @covers \Another\Plugin\Another_Wishlist\Repositories\Wishlist_Repository::find_wishlist()
+	 * @throws ExpectationArgsRequired
 	 */
 	public function test_find_wishlist_by_uuid(): void {
-		$plugin = new Plugin();
+		$plugin = Plugin::instance();
 		$repo   = new Wishlist_Repository( $plugin );
 
 		$wishlist_post               = Mockery::mock( 'WP_Post' );
@@ -308,12 +308,11 @@ class Wishlist_Test extends TestCase {
 	}
 
 	/**
+	 * @return void
 	 * @throws Repository_Exception
-	 *
-	 * @covers \Another\Plugin\Another_Wishlist\Repositories\Wishlist_Repository::find_wishlist()
 	 */
 	public function test_find_wishlist_by_numeric_id_failure(): void {
-		$plugin = new Plugin();
+		$plugin = Plugin::instance();
 		$repo   = new Wishlist_Repository( $plugin );
 
 		Functions\expect( 'get_post' )->andReturn( null );
@@ -326,12 +325,11 @@ class Wishlist_Test extends TestCase {
 	}
 
 	/**
+	 * @return void
 	 * @throws Repository_Exception
-	 *
-	 * @covers \Another\Plugin\Another_Wishlist\Repositories\Wishlist_Repository::find_wishlist()
 	 */
 	public function test_find_wishlist_by_uuid_failure(): void {
-		$plugin = new Plugin();
+		$plugin = Plugin::instance();
 		$repo   = new Wishlist_Repository( $plugin );
 
 		Functions\expect( 'get_page_by_path' )->andReturn( null );
@@ -344,12 +342,11 @@ class Wishlist_Test extends TestCase {
 	}
 
 	/**
+	 * @return void
 	 * @throws Repository_Exception
-	 *
-	 * @covers \Another\Plugin\Another_Wishlist\Repositories\Wishlist_Repository::find_wishlist()
 	 */
 	public function test_find_wishlist_invalid_id(): void {
-		$plugin = new Plugin();
+		$plugin = Plugin::instance();
 		$repo   = new Wishlist_Repository( $plugin );
 
 		Functions\expect( 'wp_is_uuid' )->andReturn( false );
@@ -362,12 +359,12 @@ class Wishlist_Test extends TestCase {
 	}
 
 	/**
-	 * @throws ExpectationArgsRequired
+	 * @return void
 	 * @throws Repository_Exception
-	 * @covers \Another\Plugin\Another_Wishlist\Repositories\Wishlist_Repository::find_wishlist()
+	 * @throws ExpectationArgsRequired
 	 */
 	public function test_find_wishlist_empty_objects(): void {
-		$plugin = new Plugin();
+		$plugin = Plugin::instance();
 		$repo   = new Wishlist_Repository( $plugin );
 
 		$wishlist_post               = Mockery::mock( 'WP_Post' );
@@ -397,10 +394,11 @@ class Wishlist_Test extends TestCase {
 	}
 
 	/**
-	 * @covers \Another\Plugin\Another_Wishlist\Repositories\Wishlist_Repository::load_wishlist()
+	 * @return void
+	 * @throws Repository_Exception
 	 */
 	public function test_load_wishlist_from_numeric_id(): void {
-		$plugin = new Plugin();
+		$plugin = Plugin::instance();
 		$repo   = new Wishlist_Repository( $plugin );
 
 		$wishlist = new Wishlist_Model(
@@ -422,10 +420,11 @@ class Wishlist_Test extends TestCase {
 	}
 
 	/**
-	 * @covers \Another\Plugin\Another_Wishlist\Repositories\Wishlist_Repository::load_wishlist()
+	 * @return void
+	 * @throws Repository_Exception
 	 */
 	public function test_load_wishlist_from_uuid(): void {
-		$plugin = new Plugin();
+		$plugin = Plugin::instance();
 		$repo   = new Wishlist_Repository( $plugin );
 
 		$wishlist = new Wishlist_Model(

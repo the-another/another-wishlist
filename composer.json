@@ -13,20 +13,17 @@
     "ext-iconv": "*",
     "ext-json": "*",
     "ext-libxml": "*",
-    "ext-mbstring": "*",
-    "yoast/whip": "^2.0",
-    "symfony/deprecation-contracts": "*"
+    "ext-mbstring": "*"
   },
   "require-dev": {
     "automattic/vipwpcs": "^3.0",
-    "wpify/scoper": "^3.2",
     "dealerdirect/phpcodesniffer-composer-installer": "^0.7",
-    "phpcompatibility/phpcompatibility-wp": "*",
-    "yoast/wp-test-utils": "*",
-    "brain/monkey": "2.*",
+    "brain/monkey": "^2.3",
     "slevomat/coding-standard": "^8.0",
-    "phpmd/phpmd": "*",
-    "phpstan/phpstan": "*"
+    "phpmd/phpmd": "^2.15",
+    "phpstan/phpstan": "^2.1",
+    "phpunit/phpunit": "^11.5",
+    "wpify/scoper": "^3.2"
   },
   "autoload": {
     "psr-4": {

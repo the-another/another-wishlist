@@ -3,7 +3,7 @@
  * Main plugin file
  */
 
-declare(strict_types = 1);
+declare( strict_types = 1 );
 
 namespace Another\Plugin\Another_Wishlist;
 
@@ -20,21 +20,42 @@ final class Plugin {
 
 	public static self $instance;
 
-	private string $version     = '1.0.0';
-	private string $text_domain = 'another-wishlist';
-	private string $plugin_name = 'Another Woo Wishlist';
-	private string $plugin_file = __FILE__;
+	private string $version;
+	private string $text_domain;
+	private string $plugin_name;
+	private string $plugin_file;
+	private string $plugin_path;
+	private string $plugin_url;
+
+	private Container $container;
+	private bool $initialized = false;
 
 	/**
-	 * Registered post types
+	 * Plugin constructor.
 	 *
-	 * @var string[] $post_types
+	 * @param array $params Plugin params.
 	 */
-	private array $post_types = array(
-		'wishlist' => Wishlist_Post_Type::class,
-	);
+	public function __construct( array $params = array() ) {
+		$this->set_params( $params );
+		$this->container = new Container(
+			array(
+				Wishlist_Post_Type::class => new Wishlist_Post_Type( $this ),
+			)
+		);
+	}
 
-	private bool $initialized = false;
+	/**
+	 * Set plugin params
+	 *
+	 * @param array $params Plugin params.
+	 */
+	public function set_params( array $params = array() ): void {
+		foreach ( $params as $param_name => $param_value ) {
+			if ( property_exists( $this, $param_name ) ) {
+				$this->$param_name = $param_value;
+			}
+		}
+	}
 
 	/**
 	 * Get plugin version
@@ -67,8 +88,15 @@ final class Plugin {
 	/**
 	 * Get plugin directory path
 	 */
-	public function plugin_dir(): string {
-		return plugin_dir_path( $this->plugin_file );
+	public function plugin_path(): string {
+		return $this->plugin_path;
+	}
+
+	/**
+	 * Get plugin directory URL
+	 */
+	public function plugin_url(): string {
+		return $this->plugin_url;
 	}
 
 	/**
@@ -76,6 +104,15 @@ final class Plugin {
 	 */
 	public function initialized(): bool {
 		return $this->initialized;
+	}
+
+	/**
+	 * Get plugin container
+	 *
+	 * @return Container
+	 */
+	public function container(): Container {
+		return $this->container;
 	}
 
 	/**
@@ -103,31 +140,29 @@ final class Plugin {
 	 * @return void
 	 */
 	public function init_global(): void {
-		add_action( 'init', array( Wishlist_Post_Type::class, 'register_post_type' ) );
+		add_action( 'init', array( $this->container->get( Wishlist_Post_Type::class ), 'register' ) );
 	}
 
 	/**
 	 * Initialize admin hooks.
-	 *
-	 * @return void
 	 */
 	public function init_admin(): void {
 	}
 
 	/**
 	 * Initialize frontend hooks.
-	 *
-	 * @return void
 	 */
 	public function init_frontend(): void {
 	}
 
 	/**
 	 * Get plugin instance
+	 *
+	 * @param array<string, mixed> $params Plugin constructor parameters.
 	 */
-	public static function instance(): self {
+	public static function instance( array $params = array() ): self {
 		if ( empty( self::$instance ) ) {
-			self::$instance = new self();
+			self::$instance = new self( $params );
 		}
 
 		return self::$instance;

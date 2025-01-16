@@ -17,10 +17,6 @@ class Wishlist_Test extends TestCase {
 
 	/**
 	 * @return void
-	 *
-	 * @covers \Another\Plugin\Another_Wishlist\Models\Wishlist_Model::__construct()
-	 * @covers \Another\Plugin\Another_Wishlist\Models\Wishlist_Model::user_id()
-	 * @covers \Another\Plugin\Another_Wishlist\Models\Wishlist_Model::set_user_id()
 	 */
 	public function test_user_id(): void {
 		$wishlist = new Wishlist_Model( array( 'user_id' => 1 ) );
@@ -29,10 +25,6 @@ class Wishlist_Test extends TestCase {
 
 	/**
 	 * @return void
-	 *
-	 * @covers \Another\Plugin\Another_Wishlist\Models\Wishlist_Model::__construct()
-	 * @covers \Another\Plugin\Another_Wishlist\Models\Wishlist_Model::id()
-	 * @covers \Another\Plugin\Another_Wishlist\Models\Wishlist_Model::set_id()
 	 */
 	public function test_id(): void {
 		$wishlist = new Wishlist_Model( array( 'id' => 1 ) );
@@ -41,10 +33,6 @@ class Wishlist_Test extends TestCase {
 
 	/**
 	 * @return void
-	 *
-	 * @covers \Another\Plugin\Another_Wishlist\Models\Wishlist_Model::__construct()
-	 * @covers \Another\Plugin\Another_Wishlist\Models\Wishlist_Model::guid()
-	 * @covers \Another\Plugin\Another_Wishlist\Models\Wishlist_Model::set_guid()
 	 */
 	public function test_guid(): void {
 		$wishlist = new Wishlist_Model( array( 'guid' => '123' ) );
@@ -53,10 +41,6 @@ class Wishlist_Test extends TestCase {
 
 	/**
 	 * @return void
-	 *
-	 * @covers \Another\Plugin\Another_Wishlist\Models\Wishlist_Model::__construct()
-	 * @covers \Another\Plugin\Another_Wishlist\Models\Wishlist_Model::title()
-	 * @covers \Another\Plugin\Another_Wishlist\Models\Wishlist_Model::set_title()
 	 */
 	public function test_title(): void {
 		$wishlist = new Wishlist_Model( array( 'title' => 'test' ) );
@@ -65,10 +49,6 @@ class Wishlist_Test extends TestCase {
 
 	/**
 	 * @return void
-	 *
-	 * @covers \Another\Plugin\Another_Wishlist\Models\Wishlist_Model::__construct()
-	 * @covers \Another\Plugin\Another_Wishlist\Models\Wishlist_Model::description()
-	 * @covers \Another\Plugin\Another_Wishlist\Models\Wishlist_Model::set_description()
 	 */
 	public function test_description(): void {
 		$wishlist = new Wishlist_Model( array( 'description' => 'test' ) );
@@ -77,10 +57,6 @@ class Wishlist_Test extends TestCase {
 
 	/**
 	 * @return void
-	 *
-	 * @covers \Another\Plugin\Another_Wishlist\Models\Wishlist_Model::__construct()
-	 * @covers \Another\Plugin\Another_Wishlist\Models\Wishlist_Model::object_ids()
-	 * @covers \Another\Plugin\Another_Wishlist\Models\Wishlist_Model::set_object_ids()
 	 */
 	public function test_object_ids(): void {
 		$wishlist = new Wishlist_Model( array( 'object_ids' => array( 1, 2, 3 ) ) );
@@ -89,9 +65,6 @@ class Wishlist_Test extends TestCase {
 
 	/**
 	 * @return void
-	 *
-	 * @covers \Another\Plugin\Another_Wishlist\Models\Wishlist_Model::__construct()
-	 * @covers \Another\Plugin\Another_Wishlist\Models\Wishlist_Model::object_ids()
 	 */
 	public function test_object_ids_sort(): void {
 		$wishlist = new Wishlist_Model( array( 'object_ids' => array( 3, 2, 1 ) ) );
@@ -100,9 +73,6 @@ class Wishlist_Test extends TestCase {
 
 	/**
 	 * @return void
-	 *
-	 * @covers \Another\Plugin\Another_Wishlist\Models\Wishlist_Model::__construct()
-	 * @covers \Another\Plugin\Another_Wishlist\Models\Wishlist_Model::add_object_id()
 	 */
 	public function test_add_object_id(): void {
 		$wishlist = new Wishlist_Model( array( 'object_ids' => array( 2, 1, 3 ) ) );
@@ -112,9 +82,6 @@ class Wishlist_Test extends TestCase {
 
 	/**
 	 * @return void
-	 *
-	 * @covers \Another\Plugin\Another_Wishlist\Models\Wishlist_Model::__construct()
-	 * @covers \Another\Plugin\Another_Wishlist\Models\Wishlist_Model::remove_object_id()
 	 */
 	public function test_remove_object_id(): void {
 		$wishlist = new Wishlist_Model( array( 'object_ids' => array( 3, 2, 1 ) ) );
@@ -124,10 +91,6 @@ class Wishlist_Test extends TestCase {
 
 	/**
 	 * @return void
-	 *
-	 * @covers \Another\Plugin\Another_Wishlist\Models\Wishlist_Model::__construct()
-	 * @covers \Another\Plugin\Another_Wishlist\Models\Wishlist_Model::visibility()
-	 * @covers \Another\Plugin\Another_Wishlist\Models\Wishlist_Model::set_visibility()
 	 */
 	public function test_visibility(): void {
 		$wishlist = new Wishlist_Model( array( 'visibility' => Wishlist_Model::VISIBILITY_PUBLIC ) );
@@ -136,23 +99,6 @@ class Wishlist_Test extends TestCase {
 
 	/**
 	 * @return void
-	 *
-	 * @covers \Another\Plugin\Another_Wishlist\Models\Wishlist_Model::__construct()
-	 * @covers \Another\Plugin\Another_Wishlist\Models\Wishlist_Model::fill()
-	 * @covers \Another\Plugin\Another_Wishlist\Models\Wishlist_Model::user_id()
-	 * @covers \Another\Plugin\Another_Wishlist\Models\Wishlist_Model::id()
-	 * @covers \Another\Plugin\Another_Wishlist\Models\Wishlist_Model::guid()
-	 * @covers \Another\Plugin\Another_Wishlist\Models\Wishlist_Model::title()
-	 * @covers \Another\Plugin\Another_Wishlist\Models\Wishlist_Model::description()
-	 * @covers \Another\Plugin\Another_Wishlist\Models\Wishlist_Model::object_ids()
-	 * @covers \Another\Plugin\Another_Wishlist\Models\Wishlist_Model::visibility()
-	 * @covers \Another\Plugin\Another_Wishlist\Models\Wishlist_Model::set_id()
-	 * @covers \Another\Plugin\Another_Wishlist\Models\Wishlist_Model::set_user_id()
-	 * @covers \Another\Plugin\Another_Wishlist\Models\Wishlist_Model::set_guid()
-	 * @covers \Another\Plugin\Another_Wishlist\Models\Wishlist_Model::set_title()
-	 * @covers \Another\Plugin\Another_Wishlist\Models\Wishlist_Model::set_description()
-	 * @covers \Another\Plugin\Another_Wishlist\Models\Wishlist_Model::set_object_ids()
-	 * @covers \Another\Plugin\Another_Wishlist\Models\Wishlist_Model::set_visibility()
 	 */
 	public function test_multiple_attributes(): void {
 		$wishlist = new Wishlist_Model(
@@ -178,9 +124,6 @@ class Wishlist_Test extends TestCase {
 
 	/**
 	 * @return void
-	 *
-	 * @covers \Another\Plugin\Another_Wishlist\Models\Wishlist_Model::__construct()
-	 * @covers \Another\Plugin\Another_Wishlist\Models\Wishlist_Model::export()
 	 */
 	public function test_export(): void {
 		$wishlist = new Wishlist_Model(
@@ -207,9 +150,6 @@ class Wishlist_Test extends TestCase {
 
 	/**
 	 * @return void
-	 *
-	 * @covers \Another\Plugin\Another_Wishlist\Models\Wishlist_Model::__construct()
-	 * @covers \Another\Plugin\Another_Wishlist\Models\Wishlist_Model::jsonSerialize()
 	 */
 	public function test_json(): void {
 		$wishlist = new Wishlist_Model(
