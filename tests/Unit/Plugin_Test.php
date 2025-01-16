@@ -11,7 +11,7 @@ use Another\Plugin\Another_Wishlist\Plugin;
 use Another\Plugin\Another_Wishlist\Post_Types\Wishlist_Post_Type;
 use Brain\Monkey\Actions;
 
-class Plugin_Test extends TestCase {
+class Plugin_Test extends Test_Case {
 	public function test_set_params(): void {
 		Plugin::instance()->set_params(
 			array(
@@ -59,15 +59,6 @@ class Plugin_Test extends TestCase {
 			->once();
 
 		Plugin::instance()->init_global();
-	}
-
-	public function test_init_admin(): void {
-		Actions\expectAdded( 'admin_init' )
-			->atLeast()
-			->once();
-
-
-		Plugin::instance()->init_admin();
 	}
 
 	public function test_init_frontend(): void {

@@ -6,13 +6,13 @@ namespace Another\Plugin\Another_Wishlist\Tests\Unit\Post_Types;
 
 use Another\Plugin\Another_Wishlist\Plugin;
 use Another\Plugin\Another_Wishlist\Post_Types\Wishlist_Post_Type;
-use Another\Plugin\Another_Wishlist\Tests\Unit\TestCase;
+use Another\Plugin\Another_Wishlist\Tests\Unit\Test_Case;
 use Brain\Monkey\Actions;
 use Brain\Monkey\Expectation\Exception\ExpectationArgsRequired;
 use Brain\Monkey\Functions;
 use Mockery;
 
-final class Wishlist_Test extends TestCase {
+final class Wishlist_Test extends Test_Case {
 
 	/**
 	 * @return void

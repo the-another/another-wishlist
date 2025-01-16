@@ -13,7 +13,7 @@ use PHPUnit\Framework\TestCase as PHPUnit_Framework_TestCase;
 /**
  * TestCase base class.
  */
-abstract class TestCase extends PHPUnit_Framework_TestCase {
+abstract class Test_Case extends PHPUnit_Framework_TestCase {
 
 	// Adds Mockery expectations to the PHPUnit assertions count.
 	use MockeryPHPUnitIntegration;

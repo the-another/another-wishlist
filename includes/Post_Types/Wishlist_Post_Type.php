@@ -7,7 +7,7 @@ declare(strict_types = 1);
 
 namespace Another\Plugin\Another_Wishlist\Post_Types;
 
-use Another\Plugin\Another_Wishlist\Contracts\WillRegister;
+use Another\Plugin\Another_Wishlist\Contracts\CanRegister;
 use Another\Plugin\Another_Wishlist\Plugin;
 use WP_Error;
 use WP_Post_Type;
@@ -20,7 +20,7 @@ if ( ! \defined( 'WPINC' ) ) {
 /**
  * Class Wishlist_Post_Type
  */
-class Wishlist_Post_Type implements WillRegister {
+class Wishlist_Post_Type implements CanRegister {
 
 	public const string POST_TYPE_NAME = 'wishlist';
 

@@ -7,7 +7,7 @@ declare( strict_types = 1 );
 
 namespace Another\Plugin\Another_Wishlist\Contracts;
 
-interface WillRegister {
+interface CanRegister {
 	/**
 	 * Register hooks
 	 */

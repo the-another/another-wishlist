@@ -7,6 +7,7 @@ declare( strict_types = 1 );
 
 namespace Another\Plugin\Another_Wishlist;
 
+use Another\Plugin\Another_Wishlist\Frontend\Enqueue;
 use Another\Plugin\Another_Wishlist\Post_Types\Wishlist_Post_Type;
 
 if ( ! \defined( 'WPINC' ) ) {
@@ -39,7 +40,9 @@ final class Plugin {
 		$this->set_params( $params );
 		$this->container = new Container(
 			array(
-				Wishlist_Post_Type::class => new Wishlist_Post_Type( $this ),
+				Wishlist_Post_Type::class      => new Wishlist_Post_Type( $this ),
+				Enqueue::class                 => new Enqueue( $this ),
+				Extensions\Woo\Register::class => new Extensions\Woo\Register( $this ),
 			)
 		);
 	}
@@ -140,7 +143,13 @@ final class Plugin {
 	 * @return void
 	 */
 	public function init_global(): void {
-		add_action( 'init', array( $this->container->get( Wishlist_Post_Type::class ), 'register' ) );
+		add_action(
+			'init',
+			array(
+				$this->container->get( Wishlist_Post_Type::class ),
+				'register',
+			)
+		);
 	}
 
 	/**
@@ -153,6 +162,13 @@ final class Plugin {
 	 * Initialize frontend hooks.
 	 */
 	public function init_frontend(): void {
+		add_action(
+			'wp_enqueue_scripts',
+			array(
+				$this->container->get( Enqueue::class ),
+				'register',
+			)
+		);
 	}
 
 	/**

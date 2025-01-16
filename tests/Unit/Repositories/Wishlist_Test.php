@@ -9,12 +9,12 @@ use Another\Plugin\Another_Wishlist\Models\Wishlist_Model;
 use Another\Plugin\Another_Wishlist\Plugin;
 use Another\Plugin\Another_Wishlist\Post_Types\Wishlist_Post_Type;
 use Another\Plugin\Another_Wishlist\Repositories\Wishlist_Repository;
-use Another\Plugin\Another_Wishlist\Tests\Unit\TestCase;
+use Another\Plugin\Another_Wishlist\Tests\Unit\Test_Case;
 use Brain\Monkey\Expectation\Exception\ExpectationArgsRequired;
 use Brain\Monkey\Functions;
 use Mockery;
 
-class Wishlist_Test extends TestCase {
+class Wishlist_Test extends Test_Case {
 
 	public function set_up(): void {
 		global $wpdb;
