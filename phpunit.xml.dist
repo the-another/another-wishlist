@@ -13,6 +13,11 @@
          displayDetailsOnTestsThatTriggerNotices="true"
          displayDetailsOnTestsThatTriggerWarnings="true"
          displayDetailsOnPhpunitDeprecations="true">
+  <source ignoreIndirectDeprecations="true" restrictNotices="true" restrictWarnings="true">
+    <include>
+      <directory suffix=".php">./includes</directory>
+    </include>
+  </source>
   <coverage disableCodeCoverageIgnore="false">
     <report>
       <clover outputFile="build/logs/clover.xml"/>
